@@ -1,2 +1,1 @@
-Dallen Corry
-This is all of the Projects from previous years.
+This is the repository containing all previous Repos that I created for School projects.
