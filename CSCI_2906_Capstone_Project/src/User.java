@@ -1,3 +1,9 @@
+/**
+ * @author: Dallen Corry
+ * @version: 1.0
+ * @since: 2022/Oct/06
+ * Class: User
+ * */
 import javafx.scene.image.Image;
 
 import java.time.Period;
