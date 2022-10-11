@@ -1,21 +1,23 @@
+package com.example.oddjob;
 /**
  * @author: Dallen Corry
  * @version: 1.0
  * @since: 2022/Oct/06
+ * @created: 2022/Oct/06
  * Class: Job
  * */
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Random;
 
 public class Job {
     int jobID;
     User creator;
     String title;
-    Date datePosted;
-    Date dateOfJob;
+    LocalDate datePosted;
+    LocalDate dateOfJob;
     double pay;
     boolean payIsHourly;
     double jobTime;
@@ -27,7 +29,7 @@ public class Job {
     ArrayList<User> workersApplied;
     Image jobImage;
 
-    public Job(User creator, String title, Date dateOfJob, double pay, boolean payIsHourly, String location) {
+    public Job(User creator, String title, LocalDate dateOfJob, double pay, boolean payIsHourly, String location) {
         this.creator = creator;
         this.title = title;
         this.dateOfJob = dateOfJob;
@@ -37,7 +39,7 @@ public class Job {
         jobID = getUniqueID();
     }
 
-    public Job(User creator, String title, Date dateOfJob, double pay, boolean payIsHourly, double jobTime, String description, String location, int numWorkersWanted, String category) {
+    public Job(User creator, String title, LocalDate dateOfJob, double pay, boolean payIsHourly, double jobTime, String description, String location, int numWorkersWanted, String category) {
         this.creator = creator;
         this.title = title;
         this.dateOfJob = dateOfJob;
@@ -63,11 +65,11 @@ public class Job {
         return title;
     }
 
-    public Date getDatePosted() {
+    public LocalDate getDatePosted() {
         return datePosted;
     }
 
-    public Date getDateOfJob() {
+    public LocalDate getDateOfJob() {
         return dateOfJob;
     }
 
@@ -115,7 +117,7 @@ public class Job {
         this.title = title;
     }
 
-    public void setDateOfJob(Date dateOfJob) {
+    public void setDateOfJob(LocalDate dateOfJob) {
         this.dateOfJob = dateOfJob;
     }
 
@@ -154,9 +156,9 @@ public class Job {
     @Override
     public String toString() {
         if(payIsHourly) {
-            return title + "\nCreated by: " + creator + "\n$" + pay+"/hr, "+jobTime;
+            return title + ": " + jobID + "\nCreated by: " + creator + "\n$" + pay+"/hr, "+jobTime;
         } else {
-            return title + "\nCreated by: " + creator + "\n$" + pay;
+            return title + ": " + jobID + "\nCreated by: " + creator + "\n$" + pay;
         }
     }
 
