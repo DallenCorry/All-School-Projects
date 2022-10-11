@@ -1,7 +1,9 @@
+package com.example.oddjob;
 /**
  * @author: Dallen Corry
  * @version: 1.0
  * @since: 2022/Oct/06
+ * @created: 2022/Oct/06
  * Class: User
  * */
 import javafx.scene.image.Image;
@@ -18,6 +20,7 @@ public class User {
     private String password;
     private LocalDate DOB;
     private String gender;
+    private String email;
     ArrayList<String> skills;
     double employerRating;
     double workerRating;
@@ -28,6 +31,13 @@ public class User {
     private double earningGoal;
 
     //Constructors
+    public User() {
+        name = null;
+        userName = null;
+        password=null;
+        DOB=null;
+        userID = getUniqueID();
+    }
     public User(String name, String userName, String password, LocalDate DOB) {
         this.name = name;
         this.userName = userName;
@@ -59,6 +69,10 @@ public class User {
 
     public String getGender() {
         return gender;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public ArrayList<String> getSkills() {
@@ -94,6 +108,9 @@ public class User {
     }
 
     public int getAge() {
+        if (DOB == null) {
+            return -1;
+        }
         return Period.between(DOB, LocalDate.now()).getYears();
     }
 
@@ -103,6 +120,10 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setProfilePicture(Image profilePicture) {
