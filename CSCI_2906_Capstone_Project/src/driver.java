@@ -1,4 +1,4 @@
-package com.example.oddjob;
+package sample;
 /**
  * @author: Dallen Corry
  * @version: 1.0
@@ -10,6 +10,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
@@ -18,13 +22,12 @@ import javafx.stage.Stage;
 
 public class driver extends Application {
 
-    User u;
+    User u;//Temp user to create bogus jobs/profile
 
     @Override
     public void start(Stage stage) throws Exception {
         //Create Objects
         BorderPane main = new BorderPane();
-        Scene scene = new Scene(main);
         ScrollPane center = new ScrollPane();
         VBox homePane = new VBox();
         VBox earningsPane = new VBox();
@@ -33,16 +36,19 @@ public class driver extends Application {
         HBox topBar = new HBox();
         VBox bottomBar = new VBox();
         HBox buttons = new HBox();
+
         Button btnHome = new Button("Home");
         Button btnEarnings = new Button("Earn");
         Button btnProfile = new Button("Prof");
         Button btnMore = new Button("More");
+        Image logo = new Image("OddJobLogo.png");
+
 
         ArrayList<JobPane> jobsArray = new ArrayList<JobPane>();
 
         //Set Object
         //top
-        topBar.getChildren().add(new Text("OddJob"));
+        topBar.getChildren().add(new ImageView(logo));
         //center
         createNewUser(LocalDate.parse("2000-01-01"));
         jobsArray.add(new JobPane(new Job(u,"Title",LocalDate.now(), 10.0, false, "")));
@@ -58,8 +64,15 @@ public class driver extends Application {
         main.setCenter(center);
         main.setBottom(bottomBar);
 
+        LandingPage lp = new LandingPage();
+        Scene scene = new Scene(lp);
+
         //Actions
 
+
+        //Style
+        topBar.setAlignment(Pos.CENTER);
+        topBar.setPadding(new Insets(10,10,10,10));
 
         //Display
         center.setPrefHeight(300);
@@ -75,6 +88,8 @@ public class driver extends Application {
      * Entry to run the program
      */
     public static void main(String[] args) {launch(args);}
+
+
     //TODO:
     // - Create JobPane with image and text
     // - Create JobInfoPane with image and text and buttons
