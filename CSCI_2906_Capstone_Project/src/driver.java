@@ -10,13 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.text.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -27,55 +20,35 @@ public class driver extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //Create Objects
-        BorderPane main = new BorderPane();
-        ScrollPane center = new ScrollPane();
-        VBox homePane = new VBox();
-        VBox earningsPane = new VBox();
-        VBox profilePane = new VBox();
-        VBox morePane = new VBox();
-        HBox topBar = new HBox();
-        VBox bottomBar = new VBox();
-        HBox buttons = new HBox();
-
-        Button btnHome = new Button("Home");
-        Button btnEarnings = new Button("Earn");
-        Button btnProfile = new Button("Prof");
-        Button btnMore = new Button("More");
-        Image logo = new Image("OddJobLogo.png");
-
-
-        ArrayList<JobPane> jobsArray = new ArrayList<JobPane>();
-
-        //Set Object
-        //top
-        topBar.getChildren().add(new ImageView(logo));
-        //center
-        createNewUser(LocalDate.parse("2000-01-01"));
-        jobsArray.add(new JobPane(new Job(u,"Title",LocalDate.now(), 10.0, false, "")));
-        jobsArray.add(new JobPane(new Job(u,"Title2",LocalDate.now(), 10.0, false, "")));
-        jobsArray.add(new JobPane(new Job(u,"Title3",LocalDate.now(), 10.0, false, "")));
-        homePane.getChildren().addAll(jobsArray);
-        center.setContent(homePane);
-        //Bottom
-        buttons.getChildren().addAll(btnHome, btnEarnings, btnProfile, btnMore);
-        bottomBar.getChildren().addAll(new Button ("+"), buttons);
-        //main
-        main.setTop(topBar);
-        main.setCenter(center);
-        main.setBottom(bottomBar);
-
+        LaunchScreenPane launch = new LaunchScreenPane();
         LandingPage lp = new LandingPage();
-        Scene scene = new Scene(lp);
+        MainScreenPane main = new MainScreenPane();
+
+        //Scene
+        launch.setCenter(lp);
+        Scene scene = new Scene(launch);
 
         //Actions
 
-
-        //Style
-        topBar.setAlignment(Pos.CENTER);
-        topBar.setPadding(new Insets(10,10,10,10));
+        lp.btnEmployer.setOnAction(e-> {
+            launch.setCenter(new NewUserPane());
+        });
+        lp.signInLink.setOnAction(e-> {
+            System.out.println("Clicked Link");
+        });
+        main.btnHome.setOnAction(e-> {
+            System.out.println("In Driver");
+            main.setCenter(new LandingPage());
+            stage.sizeToScene();
+        });
+        main.btnEarnings.setOnAction(e-> {
+            main.setCenter(new JobPane());
+        });
+        main.btnProfile.setOnAction(e->{
+            main.setCenter(new UserPane());
+        });
 
         //Display
-        center.setPrefHeight(300);
         stage.setTitle("OddJob");
         stage.setScene(scene);
         stage.show();
@@ -83,6 +56,17 @@ public class driver extends Application {
 
     public void createNewUser(LocalDate date) {
         u = new User("Bob", "bob1234","12345", date);
+    }
+
+    public ArrayList<JobPane> generateJobList() {
+        ArrayList<JobPane> jobsArray = new ArrayList<JobPane>();
+        createNewUser(LocalDate.parse("2000-01-01"));
+        jobsArray.add(new JobPane(new Job(u,"Title",LocalDate.now(), 10.0, false, "")));
+        jobsArray.add(new JobPane(new Job(u,"Title2",LocalDate.now(), 10.0, false, "")));
+        jobsArray.add(new JobPane(new Job(u,"Title3",LocalDate.now(), 10.0, false, "")));
+//        homePane.getChildren().addAll(jobsArray);
+//        center.setContent(homePane);
+        return jobsArray;
     }
     /**
      * Entry to run the program
@@ -113,30 +97,4 @@ public class driver extends Application {
     // -
     // - Make encoding and decoding
     // - Store users and jobs somewhere
-
-
-//        VBox scrollData = new VBox();
-//        Button btNew =new Button("Create New");
-//        Button btView = new Button("View Created User");
-//        Text txtUser = new Text("");
-//
-//        //Set Objects
-//        scrollData.getChildren().addAll(btNew, btView, txtUser);
-//        ScrollPane pane = new ScrollPane(scrollData);
-//        Scene scene = new Scene(pane);
-//
-//        //Actions
-//        btNew.setOnAction(e -> {
-//            LocalDate date = LocalDate.parse("2000-01-10");
-//            createNewUser(date);
-//
-//        });
-//
-//        btView.setOnAction(e-> {
-//            if (u == null) {
-//                txtUser.setText("No user Created");
-//            } else {
-//                txtUser.setText("ID: " + u.userID + "\n" + u.toString());
-//            }
-//        });
 }
