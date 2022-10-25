@@ -26,10 +26,14 @@ public class driver extends Application {
         LaunchScreenPane launch = new LaunchScreenPane();
         LandingPage lp = new LandingPage();
         MainScreenPane main = new MainScreenPane();
+        SignInPane signIn = new SignInPane();
 
         Button btnNext = new Button("Next");
         launch.setAlignment(btnNext, Pos.CENTER);
         launch.setPadding(new Insets(10));
+        Button btnSignIn = new Button("Sign In");
+
+        Button btnNewJob = new Button("+");
 
 
         //Scene
@@ -46,17 +50,29 @@ public class driver extends Application {
 
         lp.btnEmployer.setOnAction(e-> {
             launch.setCenter(new NewUserPane());
-            stage.sizeToScene();
             launch.setBottom(btnNext);
+            stage.sizeToScene();
+        });
+        lp.signInLink.setOnAction( e-> {
+            launch.setCenter(signIn);
+            launch.setBottom(btnSignIn);
+            stage.sizeToScene();
         });
 
         btnNext.setOnAction(e->{
-            System.out.println(launch.getCenter().getClass());
-            System.out.println(((NewUserPane)launch.getCenter()).test());
-        });
+            String[] data = ((NewUserPane) launch.getCenter()).getData();
+            createNewUser(data);
 
-        lp.signInLink.setOnAction(e-> {
-            System.out.println("Clicked Link");
+            if (data[0] != null) {
+                stage.setScene(new Scene(main));
+                main.setRight(btnNewJob);
+            }
+            stage.sizeToScene();
+        });
+        btnSignIn.setOnAction(e-> {
+            signIn.login();
+            stage.setScene(new Scene(main));
+            main.setRight(btnNewJob);
         });
 
         main.btnHome.setOnAction(e-> {
@@ -78,20 +94,23 @@ public class driver extends Application {
         stage.show();
     }
 
-    public void createNewUser(LocalDate date) {
-        u = new User("Bob", "bob1234","12345", date);
-    }
+    public void createNewUser(String[] data) {
+        //fake user
+        u = new User("Bob", "bob1234","12345", LocalDate.now());
 
-    public ArrayList<JobPane> generateJobList() {
-        ArrayList<JobPane> jobsArray = new ArrayList<JobPane>();
-        createNewUser(LocalDate.parse("2000-01-01"));
-        jobsArray.add(new JobPane(new Job(u,"Title",LocalDate.now(), 10.0, false, "")));
-        jobsArray.add(new JobPane(new Job(u,"Title2",LocalDate.now(), 10.0, false, "")));
-        jobsArray.add(new JobPane(new Job(u,"Title3",LocalDate.now(), 10.0, false, "")));
-//        homePane.getChildren().addAll(jobsArray);
-//        center.setContent(homePane);
-        return jobsArray;
+        //Check if user already exists with username/email. (username is already checked on creation)
     }
+//
+//    public ArrayList<JobPane> generateJobList() {
+//        ArrayList<JobPane> jobsArray = new ArrayList<JobPane>();
+//        createNewUser(LocalDate.parse("2000-01-01"));
+//        jobsArray.add(new JobPane(new Job(u,"Title",LocalDate.now(), 10.0, false, "")));
+//        jobsArray.add(new JobPane(new Job(u,"Title2",LocalDate.now(), 10.0, false, "")));
+//        jobsArray.add(new JobPane(new Job(u,"Title3",LocalDate.now(), 10.0, false, "")));
+////        homePane.getChildren().addAll(jobsArray);
+////        center.setContent(homePane);
+//        return jobsArray;
+//    }
     /**
      * Entry to run the program
      */
