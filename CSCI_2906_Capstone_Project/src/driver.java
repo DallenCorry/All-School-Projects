@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -24,26 +27,47 @@ public class driver extends Application {
         LandingPage lp = new LandingPage();
         MainScreenPane main = new MainScreenPane();
 
+        Button btnNext = new Button("Next");
+        launch.setAlignment(btnNext, Pos.CENTER);
+        launch.setPadding(new Insets(10));
+
+
         //Scene
         launch.setCenter(lp);
         Scene scene = new Scene(launch);
 
         //Actions
 
+        lp.btnWorker.setOnAction(e-> {
+            launch.setCenter(new NewUserPane());
+            launch.setBottom(btnNext);
+            stage.sizeToScene();
+        });
+
         lp.btnEmployer.setOnAction(e-> {
             launch.setCenter(new NewUserPane());
+            stage.sizeToScene();
+            launch.setBottom(btnNext);
         });
+
+        btnNext.setOnAction(e->{
+            System.out.println(launch.getCenter().getClass());
+            System.out.println(((NewUserPane)launch.getCenter()).test());
+        });
+
         lp.signInLink.setOnAction(e-> {
             System.out.println("Clicked Link");
         });
+
         main.btnHome.setOnAction(e-> {
             System.out.println("In Driver");
-            main.setCenter(new LandingPage());
             stage.sizeToScene();
         });
+
         main.btnEarnings.setOnAction(e-> {
             main.setCenter(new JobPane());
         });
+
         main.btnProfile.setOnAction(e->{
             main.setCenter(new UserPane());
         });
