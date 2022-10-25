@@ -24,6 +24,7 @@ public class NewUserPane extends VBox {
     TextField txtPassword = new TextField();
     TextField txtConfirmPassword = new TextField();
     Text errorText = new Text("");
+    Text txtUserError = new Text("");
     Button btnFinish = new Button("Done");
 
     private final int FIELD_SIZE = 300;
@@ -32,6 +33,7 @@ public class NewUserPane extends VBox {
 
     private final String[] GENDERS_LIST = {"Male", "Female", "Prefer not to say", "Other"};
     private final String[] MONTHS = {"January", "February", "March","April", "May","June","July","August","September","October","November","December"};
+
     NewUserPane(){
         super();
         cbGender.setEditable(false);
@@ -59,11 +61,12 @@ public class NewUserPane extends VBox {
         Label otherGender = new Label("Gender: ",txtOtherGender);
         Label email = new Label(" Email: ", txtEmail);
         Label username = new Label("*Username: ", txtUserName);
+        Label usernameTaken = new Label("", txtUserError);
         Label password = new Label("*Password: ", txtPassword);
         Label confirm = new Label("*Confirm Password: ", txtConfirmPassword);
         Label error = new Label("", errorText);
 
-        getChildren().addAll(name, DOB,gender,otherGender,email,username,password,confirm, error);
+        getChildren().addAll(name,DOB,gender,otherGender,email,username,usernameTaken,password,confirm, error);
         for(Node n:getChildren()) {
             ((Label)n).setContentDisplay(ContentDisplay.RIGHT);
         }
@@ -72,6 +75,7 @@ public class NewUserPane extends VBox {
         otherGender.setVisible(false);
         setAlignment(Pos.CENTER_RIGHT);
         setPadding(new Insets(15));
+        setSpacing(5);
 
         //Handlers
         cbGender.setOnAction(e-> {
@@ -82,6 +86,11 @@ public class NewUserPane extends VBox {
         });
         cbYear.setOnAction(e-> {
             updateDays();
+        });
+        txtUserName.setOnKeyTyped(e->{
+            //Check valid username
+            //no spaces, no special characters, unique.
+            txtUserError.setText("Username "+txtUserName.getText()+ " already taken");
         });
     }
 
@@ -121,71 +130,105 @@ public class NewUserPane extends VBox {
         }
     }
 
-    public String[] getData() throws MissingDataException {
-        String name = "";
-        String DOB = "";
-        String gender = "";
-        String email = "";
-        String userName = "";
-        String password = "";
+    /**
+     *
+     * @return String[] data in the following format:
+     *      name, DOB, gender, email, userName, password.
+     */
+    public String[] getData() {
+        String name = null;
+        String DOB = null;
+        String gender = null;
+        String email = null;
+        String userName = null;
+        String password = null;
 
-        if(validate()) {
+        boolean isValid = false;
+        errorText.setText("");
+        try {
+            isValid = validate();
+        }catch (MissingDataException e) {
+            errorText.setText(e.getMessage());
+            isValid = false;
+        }
+        if(isValid) {
+            name = txtName.getText();
+            email = txtEmail.getText();
+            userName = txtUserName.getText();
+            password = txtPassword.getText();
+            gender = cbGender.getSelectionModel().getSelectedItem().equals("Other")? txtOtherGender.getText() : cbGender.getSelectionModel().getSelectedItem();
 
             String day;
-            if (cbDay.getSelectionModel().getSelectedItem() == null) {
-                day = "00";
-                throw (new MissingDataException("No Day Set"));
-            } else if (cbDay.getSelectionModel().getSelectedIndex() < 10) {
+            String month;
+            String year;
+            if (cbDay.getSelectionModel().getSelectedIndex() < 10) {
                 day = "0" + cbDay.getSelectionModel().getSelectedItem();
             } else {
                 day = cbDay.getSelectionModel().getSelectedItem();
             }
+
+            if (cbMonth.getSelectionModel().getSelectedIndex() < 10) {
+                month = "0" + (cbMonth.getSelectionModel().getSelectedIndex() + 1);
+            } else {
+                month = "" + (cbMonth.getSelectionModel().getSelectedIndex() + 1);
+            }
+
+            year = cbYear.getSelectionModel().getSelectedItem();
+
+            DOB = year+"-"+month+"-"+day;
         } else {
-            errorText.setText("Invalid something");
+            System.out.println("not Valid");
         }
-
-
-
-
         return new String[] {name,DOB,gender,email,userName,password};
     }
 
-    private boolean validate() {
+    private boolean validate() throws MissingDataException {
         boolean valid = true;
         if (txtName.getText().equals ("")) {
             valid = false;
+            throw new MissingDataException("No Name");
         }
         if (cbMonth.getSelectionModel().getSelectedItem() == null) {
             valid = false;
+            throw new MissingDataException("No Month");
         }
         if (cbDay.getSelectionModel().getSelectedItem() == null) {
             valid = false;
+            throw new MissingDataException("No Day");
         }
         if (cbYear.getSelectionModel().getSelectedItem() == null) {
             valid = false;
+            throw new MissingDataException("No Year");
         }
         if (cbGender.getSelectionModel().getSelectedItem() == null) {
             valid = false;
+            throw new MissingDataException("No Gender");
         }
         if (txtUserName.getText().equals ("")) {
             valid = false;
+            throw new MissingDataException("No Username");
         }
         if (txtPassword.getText().equals ("")) {
             valid = false;
+            throw new MissingDataException("No Password");
         }
         if (txtConfirmPassword.getText().equals ("")) {
             valid = false;
+            throw new MissingDataException("No Password Confirmation");
         }
 
 
         if (!txtPassword.getText().equals(txtConfirmPassword.getText())) {
             valid = false;
+            throw new MissingDataException("Passwords do not match!");
         }
         if (cbGender.getSelectionModel().getSelectedItem()!=null && cbGender.getSelectionModel().getSelectedItem().equals("Other") && txtOtherGender.getText().equals("")) {
             valid = false;
+            throw new MissingDataException("No Other gender input");
         }
-        if (!isValidEmail(txtEmail.getText())) {
+        if (!txtEmail.getText().equals("") && !isValidEmail(txtEmail.getText())) {
             valid = false;
+            throw new MissingDataException("Not a valid email");
         }
         return valid;
     }
@@ -196,8 +239,8 @@ public class NewUserPane extends VBox {
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", s);
     }
 
-    public String test() {
-        errorText.setText(validate()+"");
-        return cbDay.getSelectionModel().getSelectedItem();
-    }
+//    public String test() {
+//        errorText.setText(validate()+"");
+//        return cbDay.getSelectionModel().getSelectedItem();
+//    }
 }
