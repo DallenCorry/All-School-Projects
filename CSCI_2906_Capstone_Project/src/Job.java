@@ -1,4 +1,4 @@
-package com.example.oddjob;
+package sample;
 /**
  * @author: Dallen Corry
  * @version: 1.0
@@ -162,11 +162,16 @@ public class Job {
         }
     }
 
-    static String encode(Job job) {
+
+    public String encode() {
+        return encode(this);
+    }
+
+    public static String encode(Job job) {
         return null;
     }
 
-    static Job decode(String string) {
+    public static Job decode(String string) {
         return null;
     }
 
