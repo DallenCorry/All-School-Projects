@@ -178,6 +178,7 @@ public class NewUserPane extends VBox {
             DOB = year+"-"+month+"-"+day;
         } else {
             System.out.println("not Valid");
+            return null;
         }
         return new String[] {name,DOB,gender,email,userName,password};
     }
