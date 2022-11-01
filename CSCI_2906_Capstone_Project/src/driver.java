@@ -1,13 +1,15 @@
 package sample;
 /**
  * @author: Dallen Corry
- * @version: 1.0
- * @since: 2022/Oct/06
+ * @version: 1.2
+ * @since: 2022/Nov/01
  * @created: 2022/Oct/06
  * Class: driver
  * */
+import java.net.URL;
+import java.io.*;
+import java.util.Scanner;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -19,7 +21,7 @@ import javafx.stage.Stage;
 public class driver extends Application {
 
     User u;//Temp user to create bogus jobs/profile
-
+    private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
     @Override
     public void start(Stage stage) throws Exception {
         //Create Objects
@@ -28,8 +30,8 @@ public class driver extends Application {
         MainScreenPane main = new MainScreenPane();
         SignInPane signIn = new SignInPane();
 
-        Button btnNext = new Button("Next");
-        launch.setAlignment(btnNext, Pos.CENTER);
+        Button btnCreateUser = new Button("Next");
+        launch.setAlignment(btnCreateUser, Pos.CENTER);
         launch.setPadding(new Insets(10));
         Button btnSignIn = new Button("Sign In");
 
@@ -44,13 +46,13 @@ public class driver extends Application {
 
         lp.btnWorker.setOnAction(e-> {
             launch.setCenter(new NewUserPane());
-            launch.setBottom(btnNext);
+            launch.setBottom(btnCreateUser);
             stage.sizeToScene();
         });
 
         lp.btnEmployer.setOnAction(e-> {
             launch.setCenter(new NewUserPane());
-            launch.setBottom(btnNext);
+            launch.setBottom(btnCreateUser);
             stage.sizeToScene();
         });
         lp.signInLink.setOnAction( e-> {
@@ -59,15 +61,17 @@ public class driver extends Application {
             stage.sizeToScene();
         });
 
-        btnNext.setOnAction(e->{
-            String[] data = ((NewUserPane) launch.getCenter()).getData();
+        btnCreateUser.setOnAction(e->{
+            String[] data = new String[1];// ((NewUserPane) launch.getCenter()).getData();
             createNewUser(data);
 
-            if (data[0] != null) {
+            /*if (data != null) {
                 stage.setScene(new Scene(main));
                 main.setRight(btnNewJob);
+
+
             }
-            stage.sizeToScene();
+            stage.sizeToScene();*/
         });
         btnSignIn.setOnAction(e-> {
             signIn.login();
@@ -76,16 +80,17 @@ public class driver extends Application {
         });
 
         main.btnHome.setOnAction(e-> {
-            System.out.println("In Driver");
             stage.sizeToScene();
         });
 
         main.btnEarnings.setOnAction(e-> {
             main.setCenter(new JobPane());
+            stage.sizeToScene();
         });
 
         main.btnProfile.setOnAction(e->{
             main.setCenter(new UserPane());
+            stage.sizeToScene();
         });
 
         //Display
@@ -98,19 +103,31 @@ public class driver extends Application {
         //fake user
         u = new User("Bob", "bob1234","12345", LocalDate.now());
 
+//        User user = new User(data);
+
+//        user.addToDatabase();
+        u.addToDatabase();
+        /*
+        try {
+            System.out.println("thing");
+//            File f = new File(URL_TO_USER_DATA.getPath());
+            File f = new File("users.txt");
+            System.out.println("thing 2");
+            System.out.println("Exsists? " + f.exists());
+            Scanner userScan = new Scanner(f);
+            PrintWriter userWrite = new PrintWriter(f);
+            System.out.println("exists now? "+f.exists());
+            userWrite.println("Test1");
+            userWrite.print("AAAAAAAH!");
+            userWrite.close();
+            System.out.println("work?");
+        }catch(Exception e) {
+            System.out.println("Error " + e.getMessage());
+            e.printStackTrace();
+        }*/
         //Check if user already exists with username/email. (username is already checked on creation)
     }
-//
-//    public ArrayList<JobPane> generateJobList() {
-//        ArrayList<JobPane> jobsArray = new ArrayList<JobPane>();
-//        createNewUser(LocalDate.parse("2000-01-01"));
-//        jobsArray.add(new JobPane(new Job(u,"Title",LocalDate.now(), 10.0, false, "")));
-//        jobsArray.add(new JobPane(new Job(u,"Title2",LocalDate.now(), 10.0, false, "")));
-//        jobsArray.add(new JobPane(new Job(u,"Title3",LocalDate.now(), 10.0, false, "")));
-////        homePane.getChildren().addAll(jobsArray);
-////        center.setContent(homePane);
-//        return jobsArray;
-//    }
+
     /**
      * Entry to run the program
      */
