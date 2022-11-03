@@ -19,17 +19,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class User {
-    int userID;
-    String name;
+    private int userID;
+    private String name;
     private String userName;
     private String password;
     private LocalDate DOB;
     private String gender;
     private String email;
-    ArrayList<String> skills;
-    double employerRating;
-    double workerRating;
-    String profilePicturePath;
+    private ArrayList<String> skills;
+    private double employerRating;
+    private double workerRating;
+    private String profilePicturePath;
     private ArrayList<Job> jobsWorked;
     private ArrayList<Job> jobsCreated;
     private double earnings;
@@ -203,11 +203,10 @@ public class User {
         try {
 //            System.out.println(URL_TO_USER_DATA);
 //            System.out.println(URL_TO_USER_DATA.getPath());
-            RandomAccessFile raf = new RandomAccessFile("users.txt", "rw");//URL_TO_USER_DATA.getPath()
+            RandomAccessFile raf = new RandomAccessFile("users.dat", "rw");//URL_TO_USER_DATA.getPath()
 //            raf.seek(raf.length());//put it at the end of the file
-            raf.seek(0);
-            raf.writeUTF("1000");
-            raf.writeUTF("2222");
+            raf.seek(raf.length());
+            raf.writeUTF(encode()+"\n");
 //            System.out.println(raf.readInt());
             raf.close();
 
