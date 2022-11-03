@@ -34,7 +34,7 @@ public class NewUserPane extends VBox {
     private final String[] GENDERS_LIST = {"Male", "Female", "Prefer not to say", "Other"};
     private final String[] MONTHS = {"January", "February", "March","April", "May","June","July","August","September","October","November","December"};
 
-    NewUserPane(){
+    NewUserPane(boolean isWorker){
         super();
         cbGender.setEditable(false);
         HBox dates = new HBox();
@@ -115,6 +115,8 @@ public class NewUserPane extends VBox {
     }
 
     private void updateDays() {
+        String selected=cbDay.getSelectionModel().getSelectedItem();
+
         String tempYear = cbYear.getSelectionModel().getSelectedItem();
         int selectedYear = Integer.parseInt(tempYear != null ? tempYear:"2000");
 
@@ -128,6 +130,8 @@ public class NewUserPane extends VBox {
         for (int i = 1; i <= numDaysInMonth; i++) {
             cbDay.getItems().add(i+"");
         }
+//        System.out.println(cbDay.getItems().contains(selected));
+        cbDay.getSelectionModel().select(cbDay.getItems().contains(selected)? selected:"");
     }
 
     /**
@@ -177,7 +181,7 @@ public class NewUserPane extends VBox {
 
             DOB = year+"-"+month+"-"+day;
         } else {
-            System.out.println("not Valid");
+            System.out.println("NUP.getData: not Valid");
             return null;
         }
         return new String[] {name,DOB,gender,email,userName,password};
