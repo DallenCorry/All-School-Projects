@@ -13,22 +13,25 @@ import java.time.LocalDate;
 import java.util.Random;
 
 public class Job {
-    int jobID;
-    User creator;
-    String title;
-    LocalDate datePosted;
-    LocalDate dateOfJob;
-    double pay;
-    boolean payIsHourly;
-    double jobTime;
-    String description;
-    String location;
-    int numWorkersWanted;
-    String category;
-    boolean isActive;
-    ArrayList<User> workersApplied;
-    Image jobImage;
+    private int jobID;
+    private User creator;
+    private String title;
+    private LocalDate datePosted;
+    private LocalDate dateOfJob;
+    private double pay;
+    private boolean payIsHourly;
+    private double jobTime;
+    private String description;
+    private String location;
+    private int numWorkersWanted;
+    private String category;
+    private boolean isActive;
+    private ArrayList<User> workersApplied;
+    private Image jobImage;
 
+    public Job() {
+        this(new User("Admin", "", "",null), "none",null,0.0,false,null);
+    }
     public Job(User creator, String title, LocalDate dateOfJob, double pay, boolean payIsHourly, String location) {
         this.creator = creator;
         this.title = title;
