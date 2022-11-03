@@ -31,23 +31,23 @@ public class SignInPane extends VBox {
     }
 
     public boolean login() {
-        try {
-            //Get the data from stored users
-            String username = txtUsername.getText();
-            String password = txtPassword.getText();
-            File f = new File(URL_TO_USER_DATA.getPath());
-            Scanner input = new Scanner(f);
-            String s = input.nextLine();
-
-            String[] temp = s.split(" ");
-            for (String str:temp) {
-                System.out.println(str);
-            }
-
-            //Check against the database and see if there's a match
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            //Get the data from stored users
+//            String username = txtUsername.getText();
+//            String password = txtPassword.getText();
+////            File f = new File(URL_TO_USER_DATA.getPath());
+////            Scanner input = new Scanner(f);
+////            String s = input.nextLine();
+////
+////            String[] temp = s.split(" ");
+////            for (String str:temp) {
+////                System.out.println(str);
+////            }
+//
+//            //Check against the database and see if there's a match
+//        } catch (FileNotFoundException e) {
+//            System.out.println(e.getMessage());
+//        }
         return true;
     }
 }
