@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 public class driver extends Application {
 
     User u;//Temp user to create bogus jobs/profile
+    User[] testUsers;
+    Job[] testJobs;
+
     private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
     @Override
     public void start(Stage stage) throws Exception {
@@ -45,16 +48,17 @@ public class driver extends Application {
         //Actions
 
         lp.btnWorker.setOnAction(e-> {
-            launch.setCenter(new NewUserPane());
+            launch.setCenter(new NewUserPane(true));
             launch.setBottom(btnCreateUser);
             stage.sizeToScene();
         });
 
         lp.btnEmployer.setOnAction(e-> {
-            launch.setCenter(new NewUserPane());
+            launch.setCenter(new NewUserPane(false));
             launch.setBottom(btnCreateUser);
             stage.sizeToScene();
         });
+
         lp.signInLink.setOnAction( e-> {
             launch.setCenter(signIn);
             launch.setBottom(btnSignIn);
@@ -62,16 +66,14 @@ public class driver extends Application {
         });
 
         btnCreateUser.setOnAction(e->{
-            String[] data = new String[1];// ((NewUserPane) launch.getCenter()).getData();
-            createNewUser(data);
-
-            /*if (data != null) {
+            String[] data = ((NewUserPane) launch.getCenter()).getData();
+            if (data != null) {
                 stage.setScene(new Scene(main));
+//                createNewUser(data);
+                genTestData(10);
                 main.setRight(btnNewJob);
-
-
             }
-            stage.sizeToScene();*/
+            stage.sizeToScene();
         });
         btnSignIn.setOnAction(e-> {
             signIn.login();
@@ -101,31 +103,21 @@ public class driver extends Application {
 
     public void createNewUser(String[] data) {
         //fake user
-        u = new User("Bob", "bob1234","12345", LocalDate.now());
+//        u = new User("Bob", "bob1234","12345", LocalDate.now());
+//        u.addToDatabase();
+        User user = new User(data);
+        user.addToDatabase();
 
-//        User user = new User(data);
-
-//        user.addToDatabase();
-        u.addToDatabase();
-        /*
-        try {
-            System.out.println("thing");
-//            File f = new File(URL_TO_USER_DATA.getPath());
-            File f = new File("users.txt");
-            System.out.println("thing 2");
-            System.out.println("Exsists? " + f.exists());
-            Scanner userScan = new Scanner(f);
-            PrintWriter userWrite = new PrintWriter(f);
-            System.out.println("exists now? "+f.exists());
-            userWrite.println("Test1");
-            userWrite.print("AAAAAAAH!");
-            userWrite.close();
-            System.out.println("work?");
-        }catch(Exception e) {
-            System.out.println("Error " + e.getMessage());
-            e.printStackTrace();
-        }*/
         //Check if user already exists with username/email. (username is already checked on creation)
+    }
+
+    public void genTestData(int num) {
+        testUsers = new User[num];
+        testJobs = new Job[num];
+        for (int i=0; i<num; i++) {
+            testUsers[i] = new User();
+            testJobs[i] = new Job();
+        }
     }
 
     /**
