@@ -1,3 +1,5 @@
+package sample;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -7,7 +9,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class LaunchScreenPane extends BorderPane {
-    private static final String imageName = "images/OddJobLogo.png";
+    private static final String imageName = "OddJobLogo.png";
     LaunchScreenPane(){
         super();
         StackPane logo = new StackPane(new ImageView(new Image(imageName)));

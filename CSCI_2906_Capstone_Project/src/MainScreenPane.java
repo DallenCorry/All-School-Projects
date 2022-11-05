@@ -1,3 +1,5 @@
+package sample;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,12 +14,10 @@ public class MainScreenPane extends BorderPane {
     Button btnProfile = new Button("Prof");
     Button btnMore = new Button("More");
 
-    private static String imageLocation="images/OddJobLogo.png";
-
     ScrollPane sp = new ScrollPane();
     MainScreenPane() {
         super();
-        StackPane logo = new StackPane(new ImageView(new Image(imageLocation)));
+        StackPane logo = new StackPane(new ImageView(new Image("OddJobLogo.png")));
         logo.setAlignment(Pos.CENTER);
         logo.setPadding(new Insets(5,5,5,5));
         setTop(logo);
