@@ -1,4 +1,4 @@
-package sample;
+package oddJob;
 
 public class MissingDataException extends Exception {
     public MissingDataException(String errorMessage) {

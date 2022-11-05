@@ -1,4 +1,4 @@
-package sample;
+package oddJob;
 /**
  * @author: Dallen Corry
  * @version: 1.0
@@ -7,16 +7,13 @@ package sample;
  * Class: User
  * */
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.net.URL;
 import java.time.Period;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class User {
     private int userID;

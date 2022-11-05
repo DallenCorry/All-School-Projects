@@ -1,4 +1,4 @@
-package sample;
+package oddJob;
 /**
  * @author: Dallen Corry
  * @version: 1.0
