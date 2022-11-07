@@ -9,15 +9,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class MainScreenPane extends BorderPane {
-    Button btnHome = new Button("Home");
-    Button btnEarnings = new Button("Earn");
-    Button btnProfile = new Button("Prof");
-    Button btnMore = new Button("More");
+    Button btnHome = new Button();
+    Button btnEarnings = new Button();
+    Button btnProfile = new Button();
+    Button btnMore = new Button();
+    private static final String imageName = "images/OddJobLogo.png";
+    private static final double buttonImageSize = 20;
 
     ScrollPane sp = new ScrollPane();
     MainScreenPane() {
         super();
-        StackPane logo = new StackPane(new ImageView(new Image("images/OddJobLogo.png")));
+        StackPane logo = new StackPane(new ImageView(new Image(imageName)));
         logo.setAlignment(Pos.CENTER);
         logo.setPadding(new Insets(5,5,5,5));
         setTop(logo);
@@ -28,6 +30,25 @@ public class MainScreenPane extends BorderPane {
         buttons.setPadding(new Insets(5,5,5,5));
         buttons.setAlignment(Pos.CENTER);
         setBottom(buttons);
+
+        //Style images
+        ImageView home = new ImageView(new Image("images/homeIcon.png"));
+        home.setFitHeight(buttonImageSize);
+        home.setFitWidth(buttonImageSize);
+        btnHome.setGraphic(home);
+        ImageView earn = new ImageView(new Image("images/earningsIcon.png"));
+        earn.setFitHeight(buttonImageSize);
+        earn.setFitWidth(buttonImageSize);
+        btnEarnings.setGraphic(earn);
+        ImageView prof = new ImageView(new Image("images/profileIcon.png"));
+        prof.setFitHeight(buttonImageSize);
+        prof.setFitWidth(buttonImageSize);
+        btnProfile.setGraphic(prof);
+        ImageView more = new ImageView(new Image("images/moreIcon.png"));
+        more.setFitHeight(buttonImageSize);
+        more.setFitWidth(buttonImageSize);
+        btnMore.setGraphic(more);
+
 
         setPadding(new Insets(5,15,5,15));
 

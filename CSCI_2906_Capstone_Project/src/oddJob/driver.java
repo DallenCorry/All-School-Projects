@@ -45,6 +45,8 @@ public class driver extends Application {
         launch.setCenter(lp);
         Scene scene = new Scene(launch);
 
+        scene.getStylesheets().add("css/styles.css");
+
         //Actions
 
         lp.btnWorker.setOnAction(e-> {
@@ -68,7 +70,7 @@ public class driver extends Application {
         btnCreateUser.setOnAction(e->{
             String[] data = ((NewUserPane) launch.getCenter()).getData();
             if (data != null) {
-                stage.setScene(new Scene(main));
+                scene.setRoot(main);
 //                createNewUser(data);
                 genTestData(10);
                 main.setRight(btnNewJob);
@@ -77,7 +79,8 @@ public class driver extends Application {
         });
         btnSignIn.setOnAction(e-> {
             signIn.login();
-            stage.setScene(new Scene(main));
+//            stage.setScene(new Scene(main));
+            scene.setRoot(main);
             main.setRight(btnNewJob);
         });
 
