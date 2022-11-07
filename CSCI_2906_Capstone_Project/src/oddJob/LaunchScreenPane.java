@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class LaunchScreenPane extends BorderPane {
-    private static final String imageName = "OddJobLogo.png";
+    private static final String imageName = "images/OddJobLogo.png";
     LaunchScreenPane(){
         super();
         StackPane logo = new StackPane(new ImageView(new Image(imageName)));

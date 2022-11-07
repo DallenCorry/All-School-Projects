@@ -20,7 +20,7 @@ public class JobPane extends Pane {
     Image img;
     private static final int defaultWidth = 200;
     private static final int defaultHeight = 100;
-    private static final Image defaultImage = new Image("imageNotFound.png");
+    private static final Image defaultImage = new Image("images/imageNotFound.png");
     JobPane() {
         super();
         job = null;

@@ -17,7 +17,7 @@ public class MainScreenPane extends BorderPane {
     ScrollPane sp = new ScrollPane();
     MainScreenPane() {
         super();
-        StackPane logo = new StackPane(new ImageView(new Image("OddJobLogo.png")));
+        StackPane logo = new StackPane(new ImageView(new Image("images/OddJobLogo.png")));
         logo.setAlignment(Pos.CENTER);
         logo.setPadding(new Insets(5,5,5,5));
         setTop(logo);
