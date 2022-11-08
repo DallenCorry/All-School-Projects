@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Random;
 
+import static oddJob.Defaults.*;
+
 public class Job {
     private int jobID;
     private User creator;
@@ -40,20 +42,17 @@ public class Job {
         this.payIsHourly = payIsHourly;
         this.location = location;
         jobID = getUniqueID();
+        jobImage = new Image(IMAGE_NOT_FOUND);
     }
 
     public Job(User creator, String title, LocalDate dateOfJob, double pay, boolean payIsHourly, double jobTime, String description, String location, int numWorkersWanted, String category) {
-        this.creator = creator;
-        this.title = title;
-        this.dateOfJob = dateOfJob;
-        this.pay = pay;
-        this.payIsHourly = payIsHourly;
+        this(creator,title,dateOfJob,pay,payIsHourly,location);
         this.jobTime = jobTime;
         this.description = description;
-        this.location = location;
         this.numWorkersWanted = numWorkersWanted;
         this.category = category;
         jobID = getUniqueID();
+        jobImage = new Image(IMAGE_NOT_FOUND);
     }
 
     public int getJobID() {
