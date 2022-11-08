@@ -6,13 +6,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+
+import static oddJob.Defaults.*;
 
 public class LaunchScreenPane extends BorderPane {
-    private static final String imageName = "images/OddJobLogo.png";
     LaunchScreenPane(){
         super();
-        StackPane logo = new StackPane(new ImageView(new Image(imageName)));
+        StackPane logo = new StackPane(new ImageView(new Image(LOGO_PATH)));
         logo.setPadding(new Insets(10));
         logo.setAlignment(Pos.CENTER);
         setTop(logo);
