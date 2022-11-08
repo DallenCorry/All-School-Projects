@@ -8,18 +8,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import static oddJob.Defaults.*;
+
 public class MainScreenPane extends BorderPane {
     Button btnHome = new Button();
     Button btnEarnings = new Button();
     Button btnProfile = new Button();
     Button btnMore = new Button();
-    private static final String imageName = "images/OddJobLogo.png";
     private static final double buttonImageSize = 20;
 
     ScrollPane sp = new ScrollPane();
+    VBox jobs = new VBox();
     MainScreenPane() {
         super();
-        StackPane logo = new StackPane(new ImageView(new Image(imageName)));
+        StackPane logo = new StackPane(new ImageView(new Image(LOGO_PATH)));
         logo.setAlignment(Pos.CENTER);
         logo.setPadding(new Insets(5,5,5,5));
         setTop(logo);
@@ -53,5 +55,13 @@ public class MainScreenPane extends BorderPane {
         setPadding(new Insets(5,15,5,15));
 
         setCenter(sp);
+
+        sp.setContent(jobs);
+    }
+
+    public void addJobsToCenter(Job[] jobArr) {
+        for(Job j:jobArr) {
+            jobs.getChildren().add(new JobPane(j));
+        }
     }
 }
