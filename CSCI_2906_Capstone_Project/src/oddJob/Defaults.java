@@ -13,6 +13,10 @@ public abstract class Defaults {
     public static final String IMAGE_NOT_FOUND = "images/imageNotFound.png";
     public static final String NO_PROFILE_PIC = "images/noProfilePic.png";
     public static final String STYLE_SHEET = "css/styles.css";
+    public static final String USERS_FILE_PATH = "users.dat";
+    public static final String JOBS_FILE_PATH = "jobs.dat";
+
+    public final static char ENCODED_DATA_SEPARATOR = '<';
 
     public static final int DEFAULT_HEIGHT = 600;
     public static final int DEFAULT_WIDTH = 450;

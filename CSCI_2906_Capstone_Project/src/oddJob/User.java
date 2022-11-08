@@ -36,7 +36,7 @@ public class User {
     private double earningGoal;
 
     private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
-    private final static char ENCODED_DATA_SEPARATOR = '<';
+
 
 
     //Constructors
@@ -206,7 +206,7 @@ public class User {
         try {
 //            System.out.println(URL_TO_USER_DATA);
 //            System.out.println(URL_TO_USER_DATA.getPath());
-            RandomAccessFile raf = new RandomAccessFile("users.dat", "rw");//URL_TO_USER_DATA.getPath()
+            RandomAccessFile raf = new RandomAccessFile(USERS_FILE_PATH, "rw");//URL_TO_USER_DATA.getPath()
 //            raf.seek(raf.length());//put it at the end of the file
             raf.seek(raf.length());
             raf.writeUTF(encode()+"\n");
@@ -267,13 +267,13 @@ public class User {
         if(jobsWorked != null && !jobsWorked.isEmpty()) {
             arrLst.add("JOBS_WORKED");
             for (Job j : jobsWorked) {
-                arrLst.add("JobID:" + j.getJobImage());
+                arrLst.add("JobID:" + j.getJobImagePath());
             }
         }
         if(jobsCreated != null && !jobsCreated.isEmpty()) {
             arrLst.add("JOBS_CREATED");
             for (Job j : jobsCreated) {
-                arrLst.add("JobID:" + j.getJobImage());
+                arrLst.add("JobID:" + j.getJobImagePath());
             }
         }
 
@@ -289,10 +289,7 @@ public class User {
     }
 
     public static String encode(User u) {
-
         StringBuilder s = new StringBuilder();
-
-
         String[] arr = u.getAllData();
         for (String str: arr) {
             s.append(str).append(ENCODED_DATA_SEPARATOR);

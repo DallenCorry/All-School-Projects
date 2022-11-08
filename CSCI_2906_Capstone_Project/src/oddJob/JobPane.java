@@ -38,10 +38,10 @@ public class JobPane extends Pane {
         super();
         this.job=job;
         t = new TextArea(job.toString());
-        if (job.getJobImage() == null) {
+        if (job.getJobImagePath() == null) {
             img = defaultImage;
         } else {
-            img = job.getJobImage();
+            img = new Image(job.getJobImagePath());
         }
         formatPane();
 //        getChildren().add(t);

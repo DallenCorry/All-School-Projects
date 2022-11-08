@@ -21,7 +21,7 @@ import static oddJob.Defaults.*;
 
 public class driver extends Application {
 
-    User u;//Temp user to create bogus jobs/profile
+    User u;//Current user
     User[] users;
     Job[] jobs;
 
@@ -116,7 +116,8 @@ public class driver extends Application {
             stage.sizeToScene();
         });
         btnNewJob.setOnAction(e-> {
-            System.out.println(main.getPrefHeight()+" "+main.getPrefWidth());
+//            jobs[1].encode();
+            scene.setRoot(new NewJobPane(u));
             stage.sizeToScene();
         });
 
@@ -143,7 +144,7 @@ public class driver extends Application {
         jobs = new Job[num];
         for (int i=0; i<num; i++) {
             users[i] = new User("Name"+i,randomString(10),randomString(10), LocalDate.now());
-            jobs[i] = new Job(users[i],"Title"+i,LocalDate.now(),10.0,i%2==0,randomString());
+            jobs[i] = new Job(users[i],"Title"+i, LocalDate.now(),10.0,i%2==0,randomString());
         }
     }
 
@@ -159,7 +160,8 @@ public class driver extends Application {
     // - Create other pages
     //      - New Job pane
     //      - Earnings
-    //          top part w/ graph, then bottom part a tab pane. one for worked, one for posted. Text below with # of jobs total worked/posted
+    //          top part w/ graph, then bottom part a tab pane. one for worked, one for posted.
+    //          Text below with # of jobs total worked/posted
     //      - Profile
     //      - More/Settings
     // - be able to make a new Job
