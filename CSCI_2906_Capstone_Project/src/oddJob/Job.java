@@ -1,8 +1,8 @@
 package oddJob;
-/**
+/*
  * @author: Dallen Corry
- * @version: 1.0
- * @since: 2022/Oct/06
+ * @version: 1.3
+ * @since: 2022/Nov/08
  * @created: 2022/Oct/06
  * Class: Job
  * */
@@ -158,9 +158,9 @@ public class Job {
     @Override
     public String toString() {
         if(payIsHourly) {
-            return title + ": " + jobID + "\nCreated by: " + creator + "\n$" + pay+"/hr, "+jobTime;
+            return title + ": " + jobID + "\nCreated by: " + creator.getName() + "\n$" + pay+"/hr,  ~"+jobTime+" hours";
         } else {
-            return title + ": " + jobID + "\nCreated by: " + creator + "\n$" + pay;
+            return title + ": " + jobID + "\nCreated by: " + creator.getName() + "\n$" + pay;
         }
     }
 

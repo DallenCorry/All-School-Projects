@@ -1,5 +1,11 @@
 package oddJob;
-
+/*
+ * @author: Dallen Corry
+ * @version: 1.0
+ * @since: 2022/Nov/08
+ * @created: 2022/Nov/08
+ * Class: JobInfoPane
+ * */
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.VBox;
@@ -19,7 +25,7 @@ public class JobInfoPane extends VBox {
         TextArea txt = new TextArea(getJobText());
         getChildren().addAll(imgView,title,txt,btnAccept);
 
-        setPrefSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
+        setPrefSize(DEFAULT_WIDTH/2,DEFAULT_HEIGHT);
     }
 
     private String getJobText() {

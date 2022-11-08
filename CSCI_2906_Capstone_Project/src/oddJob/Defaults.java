@@ -1,14 +1,21 @@
 package oddJob;
-
+/*
+  @author: Dallen Corry
+ * @version: 1.0
+ * @since: 2022/Nov/08
+ * @created: 2022/Nov/08
+ * Abstract Class: Defaults
+ * */
 import java.util.Random;
 
 public abstract class Defaults {
     public static final String LOGO_PATH = "images/OddJobLogo.png";
     public static final String IMAGE_NOT_FOUND = "images/imageNotFound.png";
     public static final String NO_PROFILE_PIC = "images/noProfilePic.png";
+    public static final String STYLE_SHEET = "css/styles.css";
 
     public static final int DEFAULT_HEIGHT = 600;
-    public static final int DEFAULT_WIDTH = 300;
+    public static final int DEFAULT_WIDTH = 450;
 
     /**
      * Returns a String of random ASCII characters ranging from A-Z and a-z.

@@ -1,8 +1,8 @@
 package oddJob;
-/**
- * @author: Dallen Corry
- * @version: 1.2
- * @since: 2022/Nov/01
+/*
+  @author: Dallen Corry
+ * @version: 2.2
+ * @since: 2022/Nov/08
  * @created: 2022/Oct/06
  * Class: driver
  * */
@@ -10,12 +10,11 @@ import java.net.URL;
 import java.time.LocalDate;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import static oddJob.Defaults.*;
@@ -26,7 +25,7 @@ public class driver extends Application {
     User[] users;
     Job[] jobs;
 
-    private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
+//    private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
     @Override
     public void start(Stage stage) throws Exception {
         //Create Objects
@@ -37,7 +36,7 @@ public class driver extends Application {
 //        ScrollPane jobScroll = new ScrollPane();
 
         Button btnCreateUser = new Button("Next");
-        launch.setAlignment(btnCreateUser, Pos.CENTER);
+        BorderPane.setAlignment(btnCreateUser, Pos.CENTER);
         launch.setPadding(new Insets(10));
         Button btnSignIn = new Button("Sign In");
 
@@ -48,27 +47,27 @@ public class driver extends Application {
         launch.setCenter(lp);
         Scene scene = new Scene(launch);
 
-        scene.getStylesheets().add("css/styles.css");
+        scene.getStylesheets().add(STYLE_SHEET);
+
+
 
         //Actions
-
         lp.btnWorker.setOnAction(e-> {
             launch.setCenter(new NewUserPane(true));
             launch.setBottom(btnCreateUser);
             stage.sizeToScene();
         });
-
         lp.btnEmployer.setOnAction(e-> {
             launch.setCenter(new NewUserPane(false));
             launch.setBottom(btnCreateUser);
             stage.sizeToScene();
         });
-
         lp.signInLink.setOnAction( e-> {
             launch.setCenter(signIn);
             launch.setBottom(btnSignIn);
             stage.sizeToScene();
         });
+
 
         btnCreateUser.setOnAction(e->{
             String[] data = ((NewUserPane) launch.getCenter()).getData();
@@ -95,28 +94,33 @@ public class driver extends Application {
             }
         });
 
+
         main.btnHome.setOnAction(e-> {
 //            main.setCenter(new JobPane(new Job()));
+            scene.setRoot(main);
             main.setRight(btnNewJob);
             main.addJobsToCenter(jobs);
             stage.sizeToScene();
         });
-
         main.btnEarnings.setOnAction(e-> {
             stage.sizeToScene();
             main.setRight(null);
         });
-
         main.btnProfile.setOnAction(e->{
             main.setCenter(new UserPane());
             main.setRight(null);
             stage.sizeToScene();
         });
-
         main.btnMore.setOnAction(e-> {
             main.setRight(null);
             stage.sizeToScene();
         });
+        btnNewJob.setOnAction(e-> {
+            System.out.println(main.getPrefHeight()+" "+main.getPrefWidth());
+            stage.sizeToScene();
+        });
+
+
 
         //Display
         stage.setTitle("OddJob");
@@ -152,12 +156,15 @@ public class driver extends Application {
     //TODO:
     // - Create JobInfoPane with image and text and buttons
     // - Create UserProfilePane with image, stars, text, and buttons
-    // - Create CSS page and link it
     // - Create other pages
-    //      - Home
+    //      - New Job pane
     //      - Earnings
     //          top part w/ graph, then bottom part a tab pane. one for worked, one for posted. Text below with # of jobs total worked/posted
-    //      - Profile (custom class??)
+    //      - Profile
     //      - More/Settings
+    // - be able to make a new Job
     // - Store users and jobs somewhere
+    // - Add Sign in Functionality
+    // - be able to read user data
+    // - add links in job info pane to Creator's profile
 }

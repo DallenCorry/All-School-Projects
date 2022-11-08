@@ -1,12 +1,11 @@
 package oddJob;
-/**
+/*
  * @author: Dallen Corry
- * @version: 1.0
- * @since: 2022/Oct/10
+ * @version: 1.2
+ * @since: 2022/Nov/08
  * @created: 2022/Oct/10
  * Class: JobPane
  * */
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -23,7 +22,7 @@ public class JobPane extends Pane {
     Job job;
     TextArea t;
     Image img;
-    private static final int jobWidth = 200;
+    private static final int jobWidth = 250;
     private static final int jobHeight = 100;
     private static final Image defaultImage = new Image(IMAGE_NOT_FOUND);
     JobPane() {
@@ -59,6 +58,17 @@ public class JobPane extends Pane {
         t.setPrefHeight(jobHeight);
         t.setWrapText(true);
         t.setEditable(false);
+        //TODO: Use TextFlow to make the job pane pretty:)
+//        Text text1 = new Text("Big italic red text");
+//        text1.setFill(Color.RED);
+//        text1.setFont(Font.font("Helvetica", FontPosture.ITALIC, 40));
+//
+//        Text text2 = new Text(" little bold blue text");
+//        text2.setFill(Color.BLUE);
+//        text2.setFont(Font.font("Helvetica", FontWeight.BOLD, 10));
+//
+//        TextFlow textFlow = new TextFlow(text1, text2);
+
         HBox box = new HBox();
         ImageView view = new ImageView(img);
         box.getChildren().addAll(view,t);
@@ -68,8 +78,8 @@ public class JobPane extends Pane {
     class jobClickedHandler implements EventHandler<InputEvent> {
         @Override
         public void handle(InputEvent e) {
-            System.out.println("Clicked on a Job");
             Scene scene = new Scene(new JobInfoPane(job));
+            scene.getStylesheets().add(STYLE_SHEET);
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.show();

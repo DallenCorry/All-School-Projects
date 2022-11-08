@@ -1,5 +1,11 @@
 package oddJob;
-
+/*
+ * @author: Dallen Corry
+ * @version: 1.3
+ * @since: 2022/Nov/08
+ * @created: 2022/Oct/16
+ * Class: MainScreenPane
+ * */
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -53,6 +59,7 @@ public class MainScreenPane extends BorderPane {
 
 
         setPadding(new Insets(5,15,5,15));
+        setPrefSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
         setCenter(sp);
 
@@ -63,5 +70,6 @@ public class MainScreenPane extends BorderPane {
         for(Job j:jobArr) {
             jobs.getChildren().add(new JobPane(j));
         }
+        setCenter(sp);
     }
 }
