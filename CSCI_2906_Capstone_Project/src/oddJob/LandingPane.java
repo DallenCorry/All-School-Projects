@@ -9,13 +9,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class LandingPage extends VBox {
+/**
+ * This Class is the first pane seen when loading the app.
+ * It is centered withing the LaunchScreen Pane
+ */
+public class LandingPane extends VBox {
     HBox buttons = new HBox();
     Hyperlink signInLink = new Hyperlink("Sign In");
     Button btnWorker = new Button("Looking for Work");
     Button btnEmployer = new Button("Looking for Help");
 
-    LandingPage() {
+    LandingPane() {
         super();
         buttons.setSpacing(10);
         buttons.setAlignment(Pos.CENTER);
