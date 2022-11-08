@@ -6,6 +6,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.*;
 import java.net.URL;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 public class SignInPane extends VBox {
     TextField txtUsername = new TextField();
     TextField txtPassword = new TextField();
+    Text txtErr = new Text("");
 
     private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
 
@@ -24,7 +26,7 @@ public class SignInPane extends VBox {
         Label password = new Label("Password: ", txtPassword);
         password.setContentDisplay(ContentDisplay.RIGHT);
 
-        getChildren().addAll(username, password);
+        getChildren().addAll(username, password, txtErr);
         setSpacing(15);
         setPadding(new Insets(45,15,45,15));
         setAlignment(Pos.CENTER_LEFT);
@@ -45,6 +47,7 @@ public class SignInPane extends VBox {
 ////            }
 //
 //            //Check against the database and see if there's a match
+//            txtErr.setText("Bad!");
 //        } catch (FileNotFoundException e) {
 //            System.out.println(e.getMessage());
 //        }
