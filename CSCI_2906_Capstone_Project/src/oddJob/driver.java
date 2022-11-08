@@ -7,31 +7,34 @@ package oddJob;
  * Class: driver
  * */
 import java.net.URL;
-import java.io.*;
-import java.util.Scanner;
 import java.time.LocalDate;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import static oddJob.Defaults.*;
+
 public class driver extends Application {
 
     User u;//Temp user to create bogus jobs/profile
-    User[] testUsers;
-    Job[] testJobs;
+    User[] users;
+    Job[] jobs;
 
     private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
     @Override
     public void start(Stage stage) throws Exception {
         //Create Objects
         LaunchScreenPane launch = new LaunchScreenPane();
-        LandingPage lp = new LandingPage();
+        LandingPane lp = new LandingPane();
         MainScreenPane main = new MainScreenPane();
         SignInPane signIn = new SignInPane();
+//        ScrollPane jobScroll = new ScrollPane();
 
         Button btnCreateUser = new Button("Next");
         launch.setAlignment(btnCreateUser, Pos.CENTER);
@@ -71,30 +74,47 @@ public class driver extends Application {
             String[] data = ((NewUserPane) launch.getCenter()).getData();
             if (data != null) {
                 scene.setRoot(main);
-//                createNewUser(data);
-                genTestData(10);
+//                    createNewUser(data);
+                    genTestData(10);
                 main.setRight(btnNewJob);
             }
+
             stage.sizeToScene();
         });
         btnSignIn.setOnAction(e-> {
-            signIn.login();
-//            stage.setScene(new Scene(main));
-            scene.setRoot(main);
-            main.setRight(btnNewJob);
+            if (signIn.login()) {
+                scene.setRoot(main);
+                main.setRight(btnNewJob);
+                //put in the default jobs
+                    genTestData(10);
+    //                getJobsFromFile();
+                main.addJobsToCenter(jobs);
+                stage.sizeToScene();
+            } else {
+                signIn.txtErr.setText("Incorrect Username or Password");
+            }
         });
 
         main.btnHome.setOnAction(e-> {
+//            main.setCenter(new JobPane(new Job()));
+            main.setRight(btnNewJob);
+            main.addJobsToCenter(jobs);
             stage.sizeToScene();
         });
 
         main.btnEarnings.setOnAction(e-> {
-            main.setCenter(new JobPane());
             stage.sizeToScene();
+            main.setRight(null);
         });
 
         main.btnProfile.setOnAction(e->{
             main.setCenter(new UserPane());
+            main.setRight(null);
+            stage.sizeToScene();
+        });
+
+        main.btnMore.setOnAction(e-> {
+            main.setRight(null);
             stage.sizeToScene();
         });
 
@@ -115,11 +135,11 @@ public class driver extends Application {
     }
 
     public void genTestData(int num) {
-        testUsers = new User[num];
-        testJobs = new Job[num];
+        users = new User[num];
+        jobs = new Job[num];
         for (int i=0; i<num; i++) {
-            testUsers[i] = new User();
-            testJobs[i] = new Job();
+            users[i] = new User("Name"+i,randomString(10),randomString(10), LocalDate.now());
+            jobs[i] = new Job(users[i],"Title"+i,LocalDate.now(),10.0,i%2==0,randomString());
         }
     }
 
@@ -130,26 +150,14 @@ public class driver extends Application {
 
 
     //TODO:
-    // - Create JobPane with image and text
     // - Create JobInfoPane with image and text and buttons
     // - Create UserProfilePane with image, stars, text, and buttons
     // - Create CSS page and link it
     // - Create other pages
-    //      - Landing
-    //          2 buttons(work or post?), and hyperlink to sign in
-    //      - Create user
-    //          form with text areas
-    //      - Login
-    //          2 text areas
     //      - Home
     //      - Earnings
     //          top part w/ graph, then bottom part a tab pane. one for worked, one for posted. Text below with # of jobs total worked/posted
     //      - Profile (custom class??)
     //      - More/Settings
-    // - images for buttons
-    // - create logo
-    // - floating button/button in the corner +
-    // -
-    // - Make encoding and decoding
     // - Store users and jobs somewhere
 }
