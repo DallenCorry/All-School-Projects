@@ -15,6 +15,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static oddJob.Defaults.*;
+
+
 public class User {
     private int userID;
     private String name;
@@ -50,6 +53,10 @@ public class User {
         this.password = password;
         this.DOB = DOB;
         userID = generateUniqueID();
+    }
+    public User(int userID) {
+        this(randomString(), randomString(), randomString(),LocalDate.now());
+        this.userID = userID;
     }
 
     /**
@@ -190,10 +197,9 @@ public class User {
         return avg;
     }
 
-    //TODO: Create unique IDs
+    //TODO: Create unique IDs by reading from 'database'
     private static int generateUniqueID() {
-        Random r = new Random();
-        return r.nextInt(1000);
+        return new Random ().nextInt(1000);
     }
 
     public boolean addToDatabase() {
