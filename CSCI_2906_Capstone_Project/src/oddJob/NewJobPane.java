@@ -6,8 +6,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.util.concurrent.Callable;
-
 import static oddJob.Defaults.*;
 
 public class NewJobPane extends ScrollPane {
@@ -85,19 +83,24 @@ public class NewJobPane extends ScrollPane {
      *             numWorkersWanted, category, jobImagePath
      */
     public String[] getData(User u) {
-        String[] data = new String[11];
+        if (isValid()) {
+            String[] data = new String[11];
 //        data[0] = u.getUserID()+"";
-        data[1] = title.getText();
-        data[2] = date.getValue().toString();
-        data[3] = pay.getText();
-        data[4] = (hourly.isSelected()?"true":"false");
-        data[5] = time.getText();
-        data[6] = description.getText();
-        data[7] = location.getText();
-        data[8] = (workers.getSelectionModel().getSelectedIndex()+1)+"";
-        data[9] = category.getSelectionModel().getSelectedItem();
-        data[10] = imagePath;
-        return data;
+            data[1] = title.getText();
+            data[2] = date.getValue().toString();
+            data[3] = pay.getText();
+            data[4] = (hourly.isSelected() ? "true" : "false");
+            data[5] = time.getText();
+            data[6] = description.getText();
+            data[7] = location.getText();
+            data[8] = (workers.getSelectionModel().getSelectedIndex() + 1) + "";
+            data[9] = category.getSelectionModel().getSelectedItem();
+            data[10] = imagePath;
+
+            return data;
+        } else {
+            return null;
+        }
     }
 
     public boolean isValid() {
