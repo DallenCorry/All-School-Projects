@@ -38,7 +38,7 @@ public class JobPane extends Pane {
         super();
         this.job=job;
         t = new TextArea(job.toString());
-        if (job.getJobImagePath() == null) {
+        if (job.getJobImagePath().equals("")) {
             img = defaultImage;
         } else {
             img = new Image(job.getJobImagePath());

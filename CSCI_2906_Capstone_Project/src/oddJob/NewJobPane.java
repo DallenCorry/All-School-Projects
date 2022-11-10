@@ -25,7 +25,7 @@ public class NewJobPane extends ScrollPane {
     ComboBox<String> category = new ComboBox<>();//set char limit
     Button btnImage = new Button("Add Image");
     TextArea description = new TextArea();
-    Button btnCreate = new Button("Finish");
+
     Text txtErr = new Text("");
     String imagePath = "";
 
@@ -73,7 +73,7 @@ public class NewJobPane extends ScrollPane {
 //        j.addToDatabase();
 
         content.getChildren().addAll(lblTitle,lblDate,lblPay,payButtons,lblLocation,lblTime,lblWorkers,
-                lblCategory,lblBtnImage,lblDescription,btnCreate,txtErr);
+                lblCategory,lblBtnImage,lblDescription,txtErr);
 
         content.setPrefSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         content.setSpacing(10);
@@ -83,17 +83,7 @@ public class NewJobPane extends ScrollPane {
         /*data = String[] in the following format:
          *             userID, title, dateOfJob, pay, payIsHourly, location, jobTime, description,
          *             numWorkersWanted, category, jobImagePath*/
-        btnCreate.setOnAction(e-> {
-            String[] arr = getData(u);
-            if(arr !=null) {
-                Job j = new Job(arr);
-                System.out.println(j);
-                for (String s : arr) {
-                    System.out.print(s + " < ");
-                }
-            }
-            System.out.println("o/");
-        });
+
     }
 
     /**
@@ -132,18 +122,18 @@ public class NewJobPane extends ScrollPane {
     }
 
     public boolean isValid(User u) throws MissingDataException {
+        if (u == null) {
+            throw new MissingDataException("Error getting User Data");
+        }
+        if (title.getText().equals("")) {
+            throw new MissingDataException("No Title set");
+        }
         try {
             if (date.getValue() == null) {
                 throw new MissingDataException("No Date selected");
             }
         } catch (DateTimeParseException e) {
             throw new MissingDataException("Bad Date");
-        }
-        if (null == u) {
-            throw new MissingDataException("Error getting User Data");
-        }
-        if (title.getText().equals("")) {
-            throw new MissingDataException("No Title set");
         }
         if (pay.getText().equals("")) {
             throw new MissingDataException("No Pay set");

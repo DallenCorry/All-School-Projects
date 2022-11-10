@@ -34,6 +34,7 @@ public class driver extends Application {
         LandingPane lp = new LandingPane();
         MainScreenPane main = new MainScreenPane();
         SignInPane signIn = new SignInPane();
+        NewJobPane newJob = new NewJobPane(u);
 //        ScrollPane jobScroll = new ScrollPane();
 
         Button btnCreateUser = new Button("Next");
@@ -42,6 +43,7 @@ public class driver extends Application {
         Button btnSignIn = new Button("Sign In");
 
         Button btnNewJob = new Button("+");
+        Button btnCreateJob = new Button("Finish");
 
 
         //Scene
@@ -119,10 +121,24 @@ public class driver extends Application {
             main.setRight(null);
             stage.sizeToScene();
         });
+
         btnNewJob.setOnAction(e-> {
 //            jobs[1].encode();
-            main.setCenter(new NewJobPane(u));
+            main.setCenter(newJob);
+            main.setBottom(btnCreateJob);
             stage.sizeToScene();
+        });
+        btnCreateJob.setOnAction(e-> {
+            String[] arr = newJob.getData(u);
+            if(arr !=null) {//check if valid
+                //Create job
+                Job j = new Job(arr);
+                //Add job to Driver's list
+                jobs.add(j);
+//                main.setBottom();
+//                main.setCenter(main);
+                main.addJobsToCenter(jobs);
+            }
         });
 
 
@@ -174,21 +190,23 @@ public class driver extends Application {
     //TODO:
     // - Create UserProfilePane with image, stars, text, and buttons
     // - Create other pages
-    //      - New Job pane
     //      - Earnings
     //          top part w/ graph, then bottom part a tab pane. one for worked, one for posted.
     //          Text below with # of jobs total worked/posted
     //      - Profile
     //      - More/Settings
-    // - be able to make a new Job
     // - Store users and jobs somewhere
     // - Add Sign in Functionality
     // - be able to read user data
     // - add links in job info pane to Creator's profile
+    // -
+    // - make the job info pane prettier(text wrap and pref width on TA
+    // - New job, make Description box smaller, fiddle with sizes of others
+    //      -make new pane to select an image from a list of 6 or so.
 
 
 
-    //ADD created jobs
     //Make Accept Job button do something
-    //USer sees accepted jobs somehow?
+    //User sees accepted jobs somehow?
+        //myJobs tab or smthn
 }

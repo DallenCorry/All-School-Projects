@@ -20,7 +20,7 @@ public class JobInfoPane extends VBox {
     JobInfoPane(Job job) {
         super();
         this.job = job;
-        ImageView imgView = new ImageView(new Image(job.getJobImagePath()==null ? IMAGE_NOT_FOUND : job.getJobImagePath()));
+        ImageView imgView = new ImageView(new Image(job.getJobImagePath().equals("") ? IMAGE_NOT_FOUND : job.getJobImagePath()));
         Text title = new Text(job.getTitle());
         TextArea txt = new TextArea(getJobText());
         getChildren().addAll(imgView,title,txt,btnAccept);

@@ -31,7 +31,7 @@ public class Job {
     private String category;
     private boolean isActive;
     private ArrayList<User> workersApplied;
-    private String jobImagePath;
+    private String jobImagePath = "";
 
     public Job() {
         this(new User("Admin", "", "",null), "none",null,0.0,false,null);

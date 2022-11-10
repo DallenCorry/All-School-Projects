@@ -27,14 +27,14 @@ public class MainScreenPane extends BorderPane {
 
     ScrollPane sp = new ScrollPane();
     VBox jobs = new VBox();
+    HBox buttons = new HBox();
+    StackPane logo = new StackPane(new ImageView(new Image(LOGO_PATH)));
     MainScreenPane() {
         super();
-        StackPane logo = new StackPane(new ImageView(new Image(LOGO_PATH)));
         logo.setAlignment(Pos.CENTER);
         logo.setPadding(new Insets(5,5,5,5));
         setTop(logo);
 
-        HBox buttons = new HBox();
         buttons.getChildren().addAll(btnHome, btnEarnings, btnProfile, btnMore);
         buttons.setSpacing(5);
         buttons.setPadding(new Insets(5,5,5,5));
@@ -79,9 +79,11 @@ public class MainScreenPane extends BorderPane {
             jobs.getChildren().add(new JobPane(j));
         }
         setCenter(sp);
+        setBottom(buttons);
     }
 
     public void addJobsToCenter(ArrayList<Job> jobArr) {
+        //Convert array list to array
         Job[] arr = new Job[jobArr.size()];
         for (int i=0; i<arr.length; i++){
             arr[i] = jobArr.get(i);
