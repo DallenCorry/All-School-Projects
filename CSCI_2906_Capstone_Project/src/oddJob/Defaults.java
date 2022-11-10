@@ -48,4 +48,9 @@ public abstract class Defaults {
         }
         return s;
     }
+
+    public static User getUserFromID(int ID) {
+        User u = new User(ID);
+        return u;
+    }
 }

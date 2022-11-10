@@ -61,13 +61,26 @@ public class Job {
 
     /**
      *
-     * @param data String[] in the following format <br>
-     *             userID, title, dateOfJob, pay, payIsHourly, jobTime, description, location,
+     * @param data = String[] in the following format:
+     *             userID, title, dateOfJob, pay, payIsHourly, location, jobTime, description,
      *             numWorkersWanted, category, jobImagePath
      */
     public Job(String[] data){
+        creator = getUserFromID(Integer.parseInt(data[0]));//Somehow get the user with ID
+        title = data[1];
+        dateOfJob = LocalDate.parse(data[2]);
+        pay = Double.parseDouble(data[3]);
+        payIsHourly = Boolean.parseBoolean(data[4]);
+        location = data[5];
+        jobTime = Double.parseDouble(data[6]);
+        description = data[7];
+        numWorkersWanted = Integer.parseInt(data[8]);
+        category = data[9];
+        jobImagePath = data[10];
 
         datePosted = LocalDate.now();
+        jobID = getUniqueID();
+        isActive = true;
     }
 
     public int getJobID() {

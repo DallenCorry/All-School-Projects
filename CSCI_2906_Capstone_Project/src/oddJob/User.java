@@ -54,10 +54,20 @@ public class User {
         this.DOB = DOB;
         userID = generateUniqueID();
     }
+    public User(String name, String userName,String password, LocalDate DOB, String gender, String email) {
+        this.name = name;
+        this.userName = userName;
+        this.password = password;
+        this.DOB = DOB;
+        this.gender = gender;
+        this.email = email;
+        userID = generateUniqueID();
+    }
     public User(int userID) {
         this(randomString(), randomString(), randomString(),LocalDate.now());
         this.userID = userID;
     }
+
 
     /**
      * String[] data in the following format:
