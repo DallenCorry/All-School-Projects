@@ -8,6 +8,7 @@ package oddJob;
  * */
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -21,9 +22,9 @@ import static oddJob.Defaults.*;
 
 public class driver extends Application {
 
-    User u;//Current user
-    User[] users;
-    Job[] jobs;
+    User u = new User("Bob", "bob1234","12345", LocalDate.now(),"male","bob.bob@bobmail.bob");;//Current user
+    ArrayList<User> users = new ArrayList();
+    ArrayList<Job> jobs = new ArrayList();
 
 //    private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
     @Override
@@ -73,9 +74,12 @@ public class driver extends Application {
             String[] data = ((NewUserPane) launch.getCenter()).getData();
             if (data != null) {
                 scene.setRoot(main);
-//                    createNewUser(data);
-                    genTestData(10);
+                genTestData(10);
                 main.setRight(btnNewJob);
+                main.addJobsToCenter(jobs);
+                stage.sizeToScene();
+//                    createNewUser(data);
+
             }
 
             stage.sizeToScene();
@@ -107,7 +111,7 @@ public class driver extends Application {
             main.setRight(null);
         });
         main.btnProfile.setOnAction(e->{
-            main.setCenter(new UserPane());
+            main.setCenter(new UserPane(u));
             main.setRight(null);
             stage.sizeToScene();
         });
@@ -117,7 +121,7 @@ public class driver extends Application {
         });
         btnNewJob.setOnAction(e-> {
 //            jobs[1].encode();
-            scene.setRoot(new NewJobPane(u));
+            main.setCenter(new NewJobPane(u));
             stage.sizeToScene();
         });
 
@@ -131,7 +135,7 @@ public class driver extends Application {
 
     public void createNewUser(String[] data) {
         //fake user
-//        u = new User("Bob", "bob1234","12345", LocalDate.now());
+
 //        u.addToDatabase();
         User user = new User(data);
         user.addToDatabase();
@@ -140,11 +144,24 @@ public class driver extends Application {
     }
 
     public void genTestData(int num) {
-        users = new User[num];
-        jobs = new Job[num];
-        for (int i=0; i<num; i++) {
-            users[i] = new User("Name"+i,randomString(10),randomString(10), LocalDate.now());
-            jobs[i] = new Job(users[i],"Title"+i, LocalDate.now(),10.0,i%2==0,randomString());
+        User[] userArr =  {
+                new User("Bob", "bob123", "password",LocalDate.parse("2000-01-01")),
+                new User("Alice", "alice456","RSA",LocalDate.parse("1990-10-10")),
+                new User("Admin", "admin", "adminadmin",LocalDate.parse("1900-01-01")),
+                new User("Jeff", "JeffRocks1","J3ffRocks1!",LocalDate.parse("1985-05-05")),
+                new User("George Georgeson", "ggson","password",LocalDate.now()),
+                new User("Steve Jobs", "Apple","Apple",LocalDate.parse("1955-02-24"))
+        };
+        Job[] jobArr = {
+                new Job(userArr[0],"Lawn Mowing",LocalDate.now(),20.00,false,"Cedar City"),
+                new Job(userArr[1],"Dog Walking",LocalDate.parse("2022-11-17"),10.00,true,2,"Walk my chihuahua socks for about 2 hours each week.","100 S 300 W",1,""),
+                new Job(userArr[2],"Drywall",LocalDate.parse("2022-11-19"),15.00,true,"Cedar Walmart"),
+                new Job(userArr[3],"Fix my Internet", LocalDate.now(),30.00,true,5,"my house has no wifi and i need it for work!!","My house",1,"electronic help"),
+                new Job(userArr[4],"Help Stock",LocalDate.parse("2022-11-15"),10.0,false,"St. George Rentals")
+        };
+        for (int i=0; i<num && i< userArr.length && i<jobArr.length; i++) {
+            users.add(userArr[i]);
+            jobs.add(jobArr[i]);
         }
     }
 
@@ -155,7 +172,6 @@ public class driver extends Application {
 
 
     //TODO:
-    // - Create JobInfoPane with image and text and buttons
     // - Create UserProfilePane with image, stars, text, and buttons
     // - Create other pages
     //      - New Job pane
@@ -169,4 +185,10 @@ public class driver extends Application {
     // - Add Sign in Functionality
     // - be able to read user data
     // - add links in job info pane to Creator's profile
+
+
+
+    //ADD created jobs
+    //Make Accept Job button do something
+    //USer sees accepted jobs somehow?
 }

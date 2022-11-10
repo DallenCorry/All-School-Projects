@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import java.util.ArrayList;
+
 import static oddJob.Defaults.*;
 
 public class MainScreenPane extends BorderPane {
@@ -66,10 +68,24 @@ public class MainScreenPane extends BorderPane {
         sp.setContent(jobs);
     }
 
+    MainScreenPane(ArrayList<Job> jobArr) {
+        this();
+        addJobsToCenter(jobArr);
+    }
+
     public void addJobsToCenter(Job[] jobArr) {
+        jobs.getChildren().clear();
         for(Job j:jobArr) {
             jobs.getChildren().add(new JobPane(j));
         }
         setCenter(sp);
+    }
+
+    public void addJobsToCenter(ArrayList<Job> jobArr) {
+        Job[] arr = new Job[jobArr.size()];
+        for (int i=0; i<arr.length; i++){
+            arr[i] = jobArr.get(i);
+        }
+        addJobsToCenter(arr);
     }
 }
