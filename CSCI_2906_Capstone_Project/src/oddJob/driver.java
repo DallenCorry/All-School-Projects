@@ -17,8 +17,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import static oddJob.Defaults.*;
@@ -42,6 +41,7 @@ public class driver extends Application {
         BorderPane.setAlignment(btnCreateUser, Pos.CENTER);
         launch.setPadding(new Insets(10));
         Button btnSignIn = new Button("Sign In");
+        Button btnBack = new Button("Back");
 
         Button btnNewJob = new Button("+");
         Button btnCreateJob = new Button("Finish");
@@ -78,7 +78,11 @@ public class driver extends Application {
         });
         lp.signInLink.setOnAction( e-> {
             launch.setCenter(signIn);
-            launch.setBottom(btnSignIn);
+            HBox btns = new HBox(btnBack);
+            btns.setSpacing(5);
+            btns.setAlignment(Pos.CENTER);
+            btns.getChildren().add(btnSignIn);
+            launch.setBottom(btns);
             stage.sizeToScene();
         });
 
@@ -98,11 +102,12 @@ public class driver extends Application {
             stage.sizeToScene();
         });
         btnSignIn.setOnAction(e-> {
-            if (signIn.login()) {
+            u = signIn.login();
+            if (u!=null) {
                 scene.setRoot(main);
                 VBox tempButtons = new VBox();
-                tempButtons.getChildren().addAll(btnNewJob, btnWrite);
-//                main.setRight(btnNewJob);
+//                tempButtons.getChildren().addAll(btnNewJob, btnWrite);
+                main.setRight(btnNewJob);
                 main.setRight(tempButtons);
                 //put in the default jobs
                 jobs = readJobs();
@@ -111,6 +116,11 @@ public class driver extends Application {
             } else {
                 signIn.txtErr.setText("Incorrect Username or Password");
             }
+        });
+        btnBack.setOnAction(e-> {
+            launch.setCenter(lp);
+            launch.setBottom(null);
+            stage.sizeToScene();
         });
 
 
@@ -314,16 +324,11 @@ public class driver extends Application {
 
 
     //TODO:
-    // - Create UserProfilePane with image, stars, text, and buttons
     // - Create other pages
     //      - Earnings
     //          top part w/ graph, then bottom part a tab pane. one for worked, one for posted.
     //          Text below with # of jobs total worked/posted
-    //      - Profile
     //      - More/Settings
-    // - Store users and jobs somewhere
-    // - Add Sign in Functionality
-    // - be able to read user data
     // - add links in job info pane to Creator's profile
     // -
     // - make the job info pane prettier(text wrap and pref width on Text Area.

@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SignInPane extends VBox {
@@ -32,25 +33,19 @@ public class SignInPane extends VBox {
         setAlignment(Pos.CENTER_LEFT);
     }
 
-    public boolean login() {
-//        try {
-//            //Get the data from stored users
-//            String username = txtUsername.getText();
-//            String password = txtPassword.getText();
-////            File f = new File(URL_TO_USER_DATA.getPath());
-////            Scanner input = new Scanner(f);
-////            String s = input.nextLine();
-////
-////            String[] temp = s.split(" ");
-////            for (String str:temp) {
-////                System.out.println(str);
-////            }
-//
-//            //Check against the database and see if there's a match
-//            txtErr.setText("Bad!");
-//        } catch (FileNotFoundException e) {
-//            System.out.println(e.getMessage());
-//        }
-        return true;
+    public User login() {
+        String userName = txtUsername.getText();
+        String password = txtPassword.getText();
+
+        ArrayList<User> tmpUsers = driver.readUsers();
+        for(User user:tmpUsers) {
+            System.out.println("U:"+user.getUserName()+" P: "+user.getPassword());
+            System.out.println("U:"+userName        +  " P: "+password);
+            if(user.getUserName().equals(userName) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        System.out.println("No user found.");
+        return null;
     }
 }
