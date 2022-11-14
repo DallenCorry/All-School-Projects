@@ -5,18 +5,18 @@ package oddJob;
  * @since: 2022/Nov/08
  * @created: 2022/Oct/06
  * Class: driver
+ * Uncomment line 59 to get random data.
  * */
 import java.io.*;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -25,8 +25,8 @@ import static oddJob.Defaults.*;
 public class driver extends Application {
 
     User u;//Current user
-    ArrayList<User> users = new ArrayList();
-    ArrayList<Job> jobs = new ArrayList();
+    ArrayList<User> users = new ArrayList<>();
+    ArrayList<Job> jobs = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -35,32 +35,34 @@ public class driver extends Application {
         LandingPane lp = new LandingPane();
         MainScreenPane main = new MainScreenPane();
         SignInPane signIn = new SignInPane();
-        NewJobPane newJob = new NewJobPane(u);
+        NewJobPane newJob = new NewJobPane();
 
         Button btnCreateUser = new Button("Next");
-        BorderPane.setAlignment(btnCreateUser, Pos.CENTER);
-        launch.setPadding(new Insets(10));
         Button btnSignIn = new Button("Sign In");
         Button btnBack = new Button("Back");
 
-        Button btnNewJob = new Button("+");
+        Button btnNewJob = new Button("+");//TODO: Put this in a Stack pane
         Button btnCreateJob = new Button("Finish");
 
-        Button btnWrite = new Button("Write");
-        Button btnRead = new Button("Read");
+        Button btnWrite = new Button("Generate Test Data");
+
+        BorderPane.setAlignment(btnCreateUser, Pos.CENTER);
+        BorderPane.setAlignment(btnNewJob, Pos.BOTTOM_CENTER);
+        launch.setPadding(new Insets(10));
 
         //Scene
         launch.setCenter(lp);
         Scene scene = new Scene(launch);
-
         scene.getStylesheets().add(STYLE_SHEET);
 
         //Load Data
+//        genTestData(10);
         users=readUsers();
         jobs = readJobs();
 
         //Display
         stage.setTitle("OddJob");
+        stage.getIcons().add(new Image(ICON_PATH));
         stage.setScene(scene);
         stage.show();
 
@@ -105,10 +107,7 @@ public class driver extends Application {
             u = signIn.login();
             if (u!=null) {
                 scene.setRoot(main);
-                VBox tempButtons = new VBox();
-//                tempButtons.getChildren().addAll(btnNewJob, btnWrite);
                 main.setRight(btnNewJob);
-                main.setRight(tempButtons);
                 //put in the default jobs
                 jobs = readJobs();
                 main.addJobsToCenter(jobs);
@@ -128,7 +127,6 @@ public class driver extends Application {
 //            main.setCenter(new JobPane(new Job()));
             scene.setRoot(main);
             main.setRight(btnNewJob);
-            System.out.println(jobs.size());
             jobs = readJobs();
             main.addJobsToCenter(jobs);
             stage.sizeToScene();
@@ -154,30 +152,18 @@ public class driver extends Application {
             stage.sizeToScene();
         });
         btnCreateJob.setOnAction(e-> {
-            System.out.println("Adding a Job");
             String[] arr = newJob.getData(u);
             if(arr !=null) {//check if valid
                 //Create job
                 Job j = new Job(arr);
                 //Add job to Driver's list
                 writeJob(j);
-//                main.setBottom();
-//                main.setCenter(main);
                 jobs = readJobs();
                 main.addJobsToCenter(jobs);
             }
         });
 
-
-        btnWrite.setOnAction(e->{
-            genTestData(10);
-        });
-
-        btnRead.setOnAction(e -> {
-            users = (readUsers());
-            System.out.println("Read"+users.size());
-        });
-
+        btnWrite.setOnAction(e->genTestData(10));
     }
 
     public User createNewUser(String[] data) {
@@ -220,7 +206,7 @@ public class driver extends Application {
             oos.writeObject(us);
             System.out.println("Successfully wrote User "+us.getName());
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+            System.out.println("File Not Found " + ex.getMessage());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -229,12 +215,11 @@ public class driver extends Application {
     public static ArrayList<User> readUsers() {
         ArrayList<User> tmpUsers = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream("users.dat");
+             ObjectInputStream ois = new ObjectInputStream(fis)
         ) {
-            ObjectInputStream ois = new ObjectInputStream(fis);
             while(true) {
                 tmpUsers.add((User)ois.readObject());
             }
-
         } catch (EOFException ex){
             //End of file reached
             System.out.println("All users read");
@@ -270,7 +255,7 @@ public class driver extends Application {
             oos.writeObject(j);
             System.out.println("Successfully wrote job "+j.getTitle());
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+            System.out.println("File not found "+ex.getMessage());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -335,7 +320,6 @@ public class driver extends Application {
     // - New job, make Description box smaller, fiddle with sizes of others
     //      -make new pane to select an image from a list of 6 or so.
     // - remove user & Job IDs from the job & job info panes.
-
 
 //TODO :Actual
 // Make Accept Job button do something

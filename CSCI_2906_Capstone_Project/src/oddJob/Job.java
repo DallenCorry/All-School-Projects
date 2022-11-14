@@ -265,7 +265,21 @@ public class Job implements Serializable {
     }
 
     public static int getUniqueID() {
-        Random r = new Random();
-        return r.nextInt(1000);
+        int tempID = new Random().nextInt(1000);
+        boolean isUnique = false;
+        ArrayList<Job> tmpUsers = driver.readJobs();
+        if (!tmpUsers.isEmpty()) {
+            while (!isUnique) {
+                for (Job j : tmpUsers) {
+                    if (j.getJobID() == tempID) {
+                        isUnique = false;
+                        tempID = new Random().nextInt(1000);
+                        break;
+                    }
+                    isUnique = true;
+                }
+            }
+        }
+        return tempID;
     }
 }
