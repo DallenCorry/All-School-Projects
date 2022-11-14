@@ -7,8 +7,7 @@ package oddJob;
  * Class: User
  * */
 
-import java.io.FileNotFoundException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.net.URL;
 import java.time.Period;
 import java.time.LocalDate;
@@ -18,7 +17,7 @@ import java.util.Random;
 import static oddJob.Defaults.*;
 
 
-public class User {
+public class User implements Serializable {
     private int userID;
     private String name;
     private String userName;
@@ -29,7 +28,7 @@ public class User {
     private ArrayList<String> skills;
     private double employerRating;
     private double workerRating;
-    private String profilePicturePath;
+    private String profilePicturePath = "images/noProfilePic.png";
     private ArrayList<Job> jobsWorked;
     private ArrayList<Job> jobsCreated;
     private double earnings;
@@ -63,10 +62,11 @@ public class User {
         this.email = email;
         userID = generateUniqueID();
     }
-    public User(int userID) {
-        this(randomString(), randomString(), randomString(),LocalDate.now());
-        this.userID = userID;
-    }
+//
+//    public User(int userID) {
+//        this(randomString(), randomString(), randomString(),LocalDate.now());
+//        this.userID = userID;
+//    }
 
 
     /**

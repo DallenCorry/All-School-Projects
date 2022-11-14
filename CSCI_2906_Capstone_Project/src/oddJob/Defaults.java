@@ -6,6 +6,7 @@ package oddJob;
  * @created: 2022/Nov/08
  * Abstract Class: Defaults
  * */
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Defaults {
@@ -50,7 +51,16 @@ public abstract class Defaults {
     }
 
     public static User getUserFromID(int ID) {
-        User u = new User(ID);
-        return u;
+        ArrayList<User> tmpUsers = driver.readUsers();
+        User user = null;
+        for(User u: tmpUsers) {
+            if(u.getUserID() == ID) {
+                user = u;
+            }
+        }
+        if (user == null) {
+            System.out.println("Could not find user with ID:"+ID);
+        }
+        return user;
     }
 }

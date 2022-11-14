@@ -6,9 +6,11 @@ package oddJob;
  * @created: 2022/Oct/06
  * Class: driver
  * */
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -16,17 +18,17 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import static oddJob.Defaults.*;
 
 public class driver extends Application {
 
-    User u = new User("Bob", "bob1234","12345", LocalDate.now(),"male","bob.bob@bobmail.bob");;//Current user
+    User u;//Current user
     ArrayList<User> users = new ArrayList();
     ArrayList<Job> jobs = new ArrayList();
 
-//    private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
     @Override
     public void start(Stage stage) throws Exception {
         //Create Objects
@@ -35,7 +37,6 @@ public class driver extends Application {
         MainScreenPane main = new MainScreenPane();
         SignInPane signIn = new SignInPane();
         NewJobPane newJob = new NewJobPane(u);
-//        ScrollPane jobScroll = new ScrollPane();
 
         Button btnCreateUser = new Button("Next");
         BorderPane.setAlignment(btnCreateUser, Pos.CENTER);
@@ -45,6 +46,8 @@ public class driver extends Application {
         Button btnNewJob = new Button("+");
         Button btnCreateJob = new Button("Finish");
 
+        Button btnWrite = new Button("Write");
+        Button btnRead = new Button("Read");
 
         //Scene
         launch.setCenter(lp);
@@ -52,6 +55,14 @@ public class driver extends Application {
 
         scene.getStylesheets().add(STYLE_SHEET);
 
+        //Load Data
+        users=readUsers();
+        jobs = readJobs();
+
+        //Display
+        stage.setTitle("OddJob");
+        stage.setScene(scene);
+        stage.show();
 
 
         //Actions
@@ -76,12 +87,12 @@ public class driver extends Application {
             String[] data = ((NewUserPane) launch.getCenter()).getData();
             if (data != null) {
                 scene.setRoot(main);
-                genTestData(10);
+//                genTestData(10);
                 main.setRight(btnNewJob);
+                jobs = readJobs();
                 main.addJobsToCenter(jobs);
                 stage.sizeToScene();
-//                    createNewUser(data);
-
+                u = createNewUser(data);
             }
 
             stage.sizeToScene();
@@ -89,10 +100,12 @@ public class driver extends Application {
         btnSignIn.setOnAction(e-> {
             if (signIn.login()) {
                 scene.setRoot(main);
-                main.setRight(btnNewJob);
+                VBox tempButtons = new VBox();
+                tempButtons.getChildren().addAll(btnNewJob, btnWrite);
+//                main.setRight(btnNewJob);
+                main.setRight(tempButtons);
                 //put in the default jobs
-                    genTestData(10);
-    //                getJobsFromFile();
+                jobs = readJobs();
                 main.addJobsToCenter(jobs);
                 stage.sizeToScene();
             } else {
@@ -105,6 +118,8 @@ public class driver extends Application {
 //            main.setCenter(new JobPane(new Job()));
             scene.setRoot(main);
             main.setRight(btnNewJob);
+            System.out.println(jobs.size());
+            jobs = readJobs();
             main.addJobsToCenter(jobs);
             stage.sizeToScene();
         });
@@ -129,34 +144,145 @@ public class driver extends Application {
             stage.sizeToScene();
         });
         btnCreateJob.setOnAction(e-> {
+            System.out.println("Adding a Job");
             String[] arr = newJob.getData(u);
             if(arr !=null) {//check if valid
                 //Create job
                 Job j = new Job(arr);
                 //Add job to Driver's list
-                jobs.add(j);
+                writeJob(j);
 //                main.setBottom();
 //                main.setCenter(main);
+                jobs = readJobs();
                 main.addJobsToCenter(jobs);
             }
         });
 
 
+        btnWrite.setOnAction(e->{
+            genTestData(10);
+        });
 
-        //Display
-        stage.setTitle("OddJob");
-        stage.setScene(scene);
-        stage.show();
+        btnRead.setOnAction(e -> {
+            users = (readUsers());
+            System.out.println("Read"+users.size());
+        });
+
     }
 
-    public void createNewUser(String[] data) {
+    public User createNewUser(String[] data) {
         //fake user
 
 //        u.addToDatabase();
         User user = new User(data);
-        user.addToDatabase();
-
+//        user.addToDatabase();
+        writeUser(user);
+        return user;
         //Check if user already exists with username/email. (username is already checked on creation)
+    }
+
+    /**
+     * Could be made generic for both Jobs and Users
+     * Hardcoded to write to "users.dat" file.
+     * @param us The user to write to the file.
+     */
+    public static void writeUser(User us) {
+        //Read everything out, then put it all in with new data.
+        ArrayList<User> tmpUsers = new ArrayList<>();
+        if (new File("users.dat").exists()) {
+            try (FileInputStream fis = new FileInputStream("users.dat");
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                while (true) {
+                    tmpUsers.add((User) ois.readObject());
+                }
+            } catch (EOFException ex) {
+                //Pass to next
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        try (FileOutputStream fos = new FileOutputStream("users.dat",false); //append false;
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            //Write everything that was in the file, and then add.
+            for(User u: tmpUsers) {
+                oos.writeObject(u);
+            }
+            oos.writeObject(us);
+            System.out.println("Successfully wrote User "+us.getName());
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static ArrayList<User> readUsers() {
+        ArrayList<User> tmpUsers = new ArrayList<>();
+        try (FileInputStream fis = new FileInputStream("users.dat");
+        ) {
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while(true) {
+                tmpUsers.add((User)ois.readObject());
+            }
+
+        } catch (EOFException ex){
+            //End of file reached
+            System.out.println("All users read");
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return tmpUsers;
+    }
+
+    public static void writeJob(Job j) {
+        //Read everything out, then put it all in with new data.
+        ArrayList<Job> tmpJobs = new ArrayList<>();
+        if (new File("jobs.dat").exists()) {
+            try (FileInputStream fis = new FileInputStream("jobs.dat");
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                while (true) {
+                    tmpJobs.add((Job) ois.readObject());
+                }
+            } catch (EOFException ex) {
+                //Pass to next
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        try (FileOutputStream fos = new FileOutputStream("jobs.dat",false); //append false;
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            //Write everything that was in the file, and then add.
+            for(Job job: tmpJobs) {
+                oos.writeObject(job);
+            }
+            oos.writeObject(j);
+            System.out.println("Successfully wrote job "+j.getTitle());
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Job> readJobs() {
+        ArrayList<Job> tmpUsers = new ArrayList<>();
+        try (FileInputStream fis = new FileInputStream("jobs.dat");
+             ObjectInputStream ois = new ObjectInputStream(fis)
+        ) {
+            while(true) {
+                tmpUsers.add((Job)ois.readObject());
+            }
+        } catch (EOFException ex){
+            //End of file reached
+            System.out.println("All jobs read");
+        } catch (FileNotFoundException ex) {
+            System.out.println("No File to load from\n"+ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return tmpUsers;
     }
 
     public void genTestData(int num) {
@@ -176,8 +302,8 @@ public class driver extends Application {
                 new Job(userArr[4],"Help Stock",LocalDate.parse("2022-11-15"),10.0,false,"St. George Rentals")
         };
         for (int i=0; i<num && i< userArr.length && i<jobArr.length; i++) {
-            users.add(userArr[i]);
-            jobs.add(jobArr[i]);
+            writeUser(userArr[i]);
+            writeJob(jobArr[i]);
         }
     }
 
@@ -200,13 +326,16 @@ public class driver extends Application {
     // - be able to read user data
     // - add links in job info pane to Creator's profile
     // -
-    // - make the job info pane prettier(text wrap and pref width on TA
+    // - make the job info pane prettier(text wrap and pref width on Text Area.
     // - New job, make Description box smaller, fiddle with sizes of others
     //      -make new pane to select an image from a list of 6 or so.
+    // - remove user & Job IDs from the job & job info panes.
 
 
-
-    //Make Accept Job button do something
-    //User sees accepted jobs somehow?
-        //myJobs tab or smthn
+//TODO :Actual
+// Make Accept Job button do something
+//      delete the job from main so others can't take it.
+//      Add to your jobs and creator's jobs
+// User sees accepted jobs somehow?
+//      myJobs tab or smthn
 }

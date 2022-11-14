@@ -10,13 +10,14 @@ import javafx.scene.image.Image;
 
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Random;
 
 import static oddJob.Defaults.*;
 
-public class Job {
+public class Job implements Serializable {
     private int jobID;
     private User creator;
     private String title;
@@ -196,6 +197,7 @@ public class Job {
         try {
             RandomAccessFile raf = new RandomAccessFile(JOBS_FILE_PATH, "rw");
             raf.seek(raf.length());
+            toString();
             raf.writeUTF(encode()+"\n");
             raf.close();
         } catch (FileNotFoundException e) {
