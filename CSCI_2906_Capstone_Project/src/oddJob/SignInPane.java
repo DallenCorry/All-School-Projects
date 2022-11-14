@@ -8,17 +8,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class SignInPane extends VBox {
     TextField txtUsername = new TextField();
     TextField txtPassword = new TextField();
     Text txtErr = new Text("");
-
-    private final URL URL_TO_USER_DATA = getClass().getResource("users.txt");
 
     SignInPane() {
         super();

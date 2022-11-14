@@ -30,7 +30,7 @@ public class NewJobPane extends ScrollPane {
     String imagePath = "";
 
     /**/
-    NewJobPane(User u) {
+    NewJobPane() {
         super();
         Label lblTitle = new Label("*Title: ",title);
         Label lblDate = new Label("*Date of Job: ", date);
@@ -67,11 +67,6 @@ public class NewJobPane extends ScrollPane {
 
         payButtons.setSpacing(10);
 
-//        String[] data = getData(u);
-//        data[0] = u.getUserID()+"";
-//        Job j = new Job(data);
-//        j.addToDatabase();
-
         content.getChildren().addAll(lblTitle,lblDate,lblPay,payButtons,lblLocation,lblTime,lblWorkers,
                 lblCategory,lblBtnImage,lblDescription,txtErr);
 
@@ -79,11 +74,6 @@ public class NewJobPane extends ScrollPane {
         content.setSpacing(10);
         content.setPadding(new Insets(5,5,5,5));
         setContent(content);
-
-        /*data = String[] in the following format:
-         *             userID, title, dateOfJob, pay, payIsHourly, location, jobTime, description,
-         *             numWorkersWanted, category, jobImagePath*/
-
     }
 
     /**

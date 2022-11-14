@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Defaults {
+    public static final String ICON_PATH = "images/OddJobIcon.png";
     public static final String LOGO_PATH = "images/OddJobLogo.png";
     public static final String IMAGE_NOT_FOUND = "images/imageNotFound.png";
     public static final String NO_PROFILE_PIC = "images/noProfilePic.png";
@@ -38,16 +39,16 @@ public abstract class Defaults {
      */
     public static String randomString(int len) {
         Random r = new Random();
-        String s="";
+        StringBuilder s= new StringBuilder();
         for (int i=0; i<len; i++) {
             int thing = (r.nextInt(58)+65);
             if (thing > 90 && thing < 97) {
-                s+= 'a';
+                s.append('a');
             } else {
-                s += ((char)thing);
+                s.append((char) thing);
             }
         }
-        return s;
+        return s.toString();
     }
 
     public static User getUserFromID(int ID) {

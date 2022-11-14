@@ -37,11 +37,7 @@ public class LandingPane extends VBox {
         setAlignment(Pos.CENTER);
         setSpacing(20);
 
-        btnWorker.setOnAction(e -> {
-            System.out.println("New Worker");
-        });
-        btnEmployer.setOnAction(e->{
-            System.out.println("new Employer");
-        });
+        btnWorker.setOnAction(e -> System.out.println("New Worker"));
+        btnEmployer.setOnAction(e-> System.out.println("new Employer"));
     }
 }

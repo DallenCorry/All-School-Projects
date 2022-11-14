@@ -25,15 +25,7 @@ public class JobPane extends Pane {
     private static final int jobWidth = 250;
     private static final int jobHeight = 100;
     private static final Image defaultImage = new Image(IMAGE_NOT_FOUND);
-    JobPane() {
-        super();
-        job = null;
-        t = new TextArea("No Job");
-        img = defaultImage;
-        formatPane();
-    }
 
-    //TODO fix make this work
     JobPane(Job job) {
         super();
         this.job=job;
@@ -44,7 +36,6 @@ public class JobPane extends Pane {
             img = new Image(job.getJobImagePath());
         }
         formatPane();
-//        getChildren().add(t);
 
         jobClickedHandler x = new jobClickedHandler();
         setOnMouseClicked(x);
@@ -81,6 +72,8 @@ public class JobPane extends Pane {
             Scene scene = new Scene(new JobInfoPane(job));
             scene.getStylesheets().add(STYLE_SHEET);
             Stage newStage = new Stage();
+            newStage.getIcons().add(new Image(ICON_PATH));
+            newStage.setTitle(job.getTitle());
             newStage.setScene(scene);
             newStage.show();
         }
