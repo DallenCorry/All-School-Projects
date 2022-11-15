@@ -6,10 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class NewUserPane extends VBox {
@@ -24,7 +26,7 @@ public class NewUserPane extends VBox {
     TextField txtPassword = new TextField();
     TextField txtConfirmPassword = new TextField();
     Text errorText = new Text("");
-    Text txtUserError = new Text("");
+    Text txtUsernameError = new Text("");
 
     private final int FIELD_SIZE = 300;
     private final int CURRENT_YEAR = LocalDate.now().getYear();
@@ -58,9 +60,9 @@ public class NewUserPane extends VBox {
         Label DOB = new Label("*Date of Birth: ", dates);
         Label gender = new Label("*Gender: ", cbGender);
         Label otherGender = new Label("Gender: ",txtOtherGender);
-        Label email = new Label(" Email: ", txtEmail);
+        Label email = new Label(" *Email: ", txtEmail);
         Label username = new Label("*Username: ", txtUserName);
-        Label usernameTaken = new Label("", txtUserError);
+        Label usernameTaken = new Label("", txtUsernameError);
         Label password = new Label("*Password: ", txtPassword);
         Label confirm = new Label("*Confirm Password: ", txtConfirmPassword);
         Label error = new Label("", errorText);
@@ -71,6 +73,7 @@ public class NewUserPane extends VBox {
         }
         error.setAlignment(Pos.CENTER);
 
+        errorText.setFill(Color.RED);
         otherGender.setVisible(false);
         setAlignment(Pos.CENTER_RIGHT);
         setPadding(new Insets(15));
@@ -82,11 +85,18 @@ public class NewUserPane extends VBox {
         );
         cbMonth.setOnAction(e->updateDays());
         cbYear.setOnAction(e-> updateDays());
+
         //TODO: Check against database
         txtUserName.setOnKeyTyped(e->{
             //Check valid username
             //no spaces, no special characters, unique.
-            txtUserError.setText("Username "+txtUserName.getText()+ " already taken");
+            if (usernameAlreadyExists(txtUserName.getText())) {
+                txtUsernameError.setText("Username " + txtUserName.getText() + " already taken");
+            } else if(!isValidUsername(txtUserName.getText())) {
+                txtUsernameError.setText("Invalid Username");
+            } else {
+                txtUsernameError.setText("");
+            }
         });
     }
 
@@ -200,6 +210,9 @@ public class NewUserPane extends VBox {
         if (cbGender.getSelectionModel().getSelectedItem() == null) {
             throw new MissingDataException("No Gender");
         }
+        if (txtEmail.getText().equals ("")) {
+            throw new MissingDataException("No Email");
+        }
         if (txtUserName.getText().equals ("")) {
             throw new MissingDataException("No Username");
         }
@@ -220,6 +233,10 @@ public class NewUserPane extends VBox {
         if (!txtEmail.getText().equals("") && !isValidEmail(txtEmail.getText())) {
             throw new MissingDataException("Not a valid email");
         }
+        if (usernameAlreadyExists(txtUserName.getText())) {
+            throw new MissingDataException("Username "+txtUserName.getText()+" already Taken");
+        }
+
         return valid;
     }
 
@@ -227,5 +244,21 @@ public class NewUserPane extends VBox {
         //Regular expression from www.baeldung.com "Email Validation in Java" - by baeldung
         return Pattern.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", s);
+    }
+
+    private boolean isValidUsername(String s) {
+        return Pattern.matches("[a-zA-Z0-9_]{3,}",s);
+    }
+
+    public boolean usernameAlreadyExists(String s) {
+        ArrayList<User> tmpUsers = driver.readUsers();
+        if (tmpUsers != null) {
+            for (User u:tmpUsers) {
+                if(s.equals(u.getUserName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

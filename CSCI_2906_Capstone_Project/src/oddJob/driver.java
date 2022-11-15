@@ -36,6 +36,7 @@ public class driver extends Application {
         MainScreenPane main = new MainScreenPane();
         SignInPane signIn = new SignInPane();
         NewJobPane newJob = new NewJobPane();
+        HBox btnAndBack = new HBox();
 
         Button btnCreateUser = new Button("Next");
         Button btnSignIn = new Button("Sign In");
@@ -50,13 +51,17 @@ public class driver extends Application {
         BorderPane.setAlignment(btnNewJob, Pos.BOTTOM_CENTER);
         launch.setPadding(new Insets(10));
 
+        btnAndBack.setSpacing(5);
+        btnAndBack.setAlignment(Pos.CENTER);
+        btnAndBack.getChildren().add(btnBack);
+
         //Scene
         launch.setCenter(lp);
         Scene scene = new Scene(launch);
         scene.getStylesheets().add(STYLE_SHEET);
 
         //Load Data
-//        genTestData(10);
+        genTestData(10);
         users=readUsers();
         jobs = readJobs();
 
@@ -70,21 +75,23 @@ public class driver extends Application {
         //Actions
         lp.btnWorker.setOnAction(e-> {
             launch.setCenter(new NewUserPane(true));
-            launch.setBottom(btnCreateUser);
+            btnAndBack.getChildren().clear();
+            btnAndBack.getChildren().addAll(btnBack, btnCreateUser);
+            launch.setBottom(btnAndBack);
             stage.sizeToScene();
         });
         lp.btnEmployer.setOnAction(e-> {
             launch.setCenter(new NewUserPane(false));
-            launch.setBottom(btnCreateUser);
+            btnAndBack.getChildren().clear();
+            btnAndBack.getChildren().addAll(btnBack, btnCreateUser);
+            launch.setBottom(btnAndBack);
             stage.sizeToScene();
         });
         lp.signInLink.setOnAction( e-> {
             launch.setCenter(signIn);
-            HBox btns = new HBox(btnBack);
-            btns.setSpacing(5);
-            btns.setAlignment(Pos.CENTER);
-            btns.getChildren().add(btnSignIn);
-            launch.setBottom(btns);
+            btnAndBack.getChildren().clear();
+            btnAndBack.getChildren().addAll(btnBack,btnSignIn);
+            launch.setBottom(btnAndBack);
             stage.sizeToScene();
         });
 
@@ -92,15 +99,17 @@ public class driver extends Application {
         btnCreateUser.setOnAction(e->{
             String[] data = ((NewUserPane) launch.getCenter()).getData();
             if (data != null) {
-                scene.setRoot(main);
-//                genTestData(10);
-                main.setRight(btnNewJob);
-                jobs = readJobs();
-                main.addJobsToCenter(jobs);
-                stage.sizeToScene();
                 u = createNewUser(data);
+                if(u!=null) {
+                    scene.setRoot(main);
+                    main.setRight(btnNewJob);
+                    jobs = readJobs();
+                    main.addJobsToCenter(jobs);
+                    stage.sizeToScene();
+                } else {
+                    ((NewUserPane) launch.getCenter()).errorText.setText("Your email is already associated with an account.");
+                }
             }
-
             stage.sizeToScene();
         });
         btnSignIn.setOnAction(e-> {
@@ -108,7 +117,6 @@ public class driver extends Application {
             if (u!=null) {
                 scene.setRoot(main);
                 main.setRight(btnNewJob);
-                //put in the default jobs
                 jobs = readJobs();
                 main.addJobsToCenter(jobs);
                 stage.sizeToScene();
@@ -124,7 +132,6 @@ public class driver extends Application {
 
 
         main.btnHome.setOnAction(e-> {
-//            main.setCenter(new JobPane(new Job()));
             scene.setRoot(main);
             main.setRight(btnNewJob);
             jobs = readJobs();
@@ -146,7 +153,6 @@ public class driver extends Application {
         });
 
         btnNewJob.setOnAction(e-> {
-//            jobs[1].encode();
             main.setCenter(newJob);
             main.setBottom(btnCreateJob);
             stage.sizeToScene();
@@ -156,7 +162,6 @@ public class driver extends Application {
             if(arr !=null) {//check if valid
                 //Create job
                 Job j = new Job(arr);
-                //Add job to Driver's list
                 writeJob(j);
                 jobs = readJobs();
                 main.addJobsToCenter(jobs);
@@ -164,29 +169,49 @@ public class driver extends Application {
         });
 
         btnWrite.setOnAction(e->genTestData(10));
+
+//        scene.setOnMouseEntered(e-> {
+//            stage.sizeToScene();
+//        });
     }
 
     public User createNewUser(String[] data) {
-        //fake user
-
-//        u.addToDatabase();
-        User user = new User(data);
-//        user.addToDatabase();
-        writeUser(user);
-        return user;
+        if(!isEmailAlreadyAssociated(data[3])) {
+            User user = new User(data);
+            writeUser(user);
+            return user;
+        } else {
+            System.out.println("User already Exists!");
+            return null;
+        }
         //Check if user already exists with username/email. (username is already checked on creation)
+    }
+
+    public boolean isEmailAlreadyAssociated(String s) {
+        ArrayList<User> tmpUsers = readUsers();
+        if(tmpUsers!=null) {
+            for(User u:tmpUsers) {
+                if(s.equals(u.getEmail())) {
+                    System.out.println(s+": matches :"+u.getEmail());
+                    return true;
+                }
+            }
+        } else {
+            System.out.println("tmpUsers was null!");
+        }
+        return false;
     }
 
     /**
      * Could be made generic for both Jobs and Users
-     * Hardcoded to write to "users.dat" file.
+     * Hardcoded to write to USERS_FILE_PATH file in Defaults.java
      * @param us The user to write to the file.
      */
     public static void writeUser(User us) {
         //Read everything out, then put it all in with new data.
         ArrayList<User> tmpUsers = new ArrayList<>();
-        if (new File("users.dat").exists()) {
-            try (FileInputStream fis = new FileInputStream("users.dat");
+        if (new File(USERS_FILE_PATH).exists()) {
+            try (FileInputStream fis = new FileInputStream(USERS_FILE_PATH);
                  ObjectInputStream ois = new ObjectInputStream(fis)) {
                 while (true) {
                     tmpUsers.add((User) ois.readObject());
@@ -197,7 +222,7 @@ public class driver extends Application {
                 ex.printStackTrace();
             }
         }
-        try (FileOutputStream fos = new FileOutputStream("users.dat",false); //append false;
+        try (FileOutputStream fos = new FileOutputStream(USERS_FILE_PATH,false); //append false;
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             //Write everything that was in the file, and then add.
             for(User u: tmpUsers) {
@@ -214,7 +239,7 @@ public class driver extends Application {
 
     public static ArrayList<User> readUsers() {
         ArrayList<User> tmpUsers = new ArrayList<>();
-        try (FileInputStream fis = new FileInputStream("users.dat");
+        try (FileInputStream fis = new FileInputStream(USERS_FILE_PATH);
              ObjectInputStream ois = new ObjectInputStream(fis)
         ) {
             while(true) {
@@ -232,7 +257,6 @@ public class driver extends Application {
     }
 
     public static void writeJob(Job j) {
-        //Read everything out, then put it all in with new data.
         ArrayList<Job> tmpJobs = new ArrayList<>();
         if (new File("jobs.dat").exists()) {
             try (FileInputStream fis = new FileInputStream("jobs.dat");
@@ -262,12 +286,12 @@ public class driver extends Application {
     }
 
     public static ArrayList<Job> readJobs() {
-        ArrayList<Job> tmpUsers = new ArrayList<>();
+        ArrayList<Job> tmpJobs = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream("jobs.dat");
              ObjectInputStream ois = new ObjectInputStream(fis)
         ) {
             while(true) {
-                tmpUsers.add((Job)ois.readObject());
+                tmpJobs.add((Job)ois.readObject());
             }
         } catch (EOFException ex){
             //End of file reached
@@ -277,7 +301,7 @@ public class driver extends Application {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return tmpUsers;
+        return tmpJobs;
     }
 
     public void genTestData(int num) {
@@ -320,11 +344,12 @@ public class driver extends Application {
     // - New job, make Description box smaller, fiddle with sizes of others
     //      -make new pane to select an image from a list of 6 or so.
     // - remove user & Job IDs from the job & job info panes.
+    // - remove prints.
 
 //TODO :Actual
 // Make Accept Job button do something
 //      delete the job from main so others can't take it.
 //      Add to your jobs and creator's jobs
 // User sees accepted jobs somehow?
-//      myJobs tab or smthn
+//      myJobs tab or something
 }

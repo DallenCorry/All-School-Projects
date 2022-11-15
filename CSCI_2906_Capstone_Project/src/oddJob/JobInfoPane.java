@@ -23,14 +23,18 @@ public class JobInfoPane extends VBox {
         ImageView imgView = new ImageView(new Image(job.getJobImagePath().equals("") ? IMAGE_NOT_FOUND : job.getJobImagePath()));
         Text title = new Text(job.getTitle());
         TextArea txt = new TextArea(getJobText());
-        getChildren().addAll(imgView,title,txt,btnAccept);
+        txt.setEditable(false);
+        txt.setPrefSize(DEFAULT_WIDTH/2,DEFAULT_HEIGHT);
+        Hyperlink hLink = new Hyperlink(job.getCreator().getName());
+        Label txtCreator = new Label("Job Poster:", hLink);
+        txtCreator.setContentDisplay(ContentDisplay.RIGHT);
+        getChildren().addAll(imgView,title,txtCreator,txt,btnAccept);
 
         setPrefSize(DEFAULT_WIDTH/2,DEFAULT_HEIGHT);
     }
 
     private String getJobText() {
-        String s = job.getJobID()+"\n";
-        s+= "\nJob Poster:" + job.getCreator().getName();
+        String s = "";
         s+= "\nDate of Job:" + job.getDateOfJob();
         s+= "\n\nPay: $" + job.getPay() + (job.isPayIsHourly() ? "/hr":" - Flat rate");
         s+= "\n Date Posted: "+ job.getDatePosted();

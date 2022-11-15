@@ -187,81 +187,10 @@ public class Job implements Serializable {
     @Override
     public String toString() {
         if(payIsHourly) {
-            return title + ": " + jobID + "\nCreated by: " + creator.getName() + "\n$" + pay+"/hr,  ~"+jobTime+" hours";
+            return title + ": " + "\nCreated by: " + creator.getName() + "\n$" + pay+"/hr,  ~"+jobTime+" hours"+ "\nLocation: "+location;
         } else {
-            return title + ": " + jobID + "\nCreated by: " + creator.getName() + "\n$" + pay;
+            return title + ": " + "\nCreated by: " + creator.getName() + "\n$" + pay + "\nLocation: "+location;
         }
-    }
-
-    public boolean addToDatabase() {
-        try {
-            RandomAccessFile raf = new RandomAccessFile(JOBS_FILE_PATH, "rw");
-            raf.seek(raf.length());
-            toString();
-            raf.writeUTF(encode()+"\n");
-            raf.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    private String[] getAllData() {
-        ArrayList<String> arrLst = new ArrayList<>();
-
-        arrLst.add(jobID+"");
-        arrLst.add(creator.getUserID()+"");
-        arrLst.add(title);
-        arrLst.add(datePosted.toString());
-        arrLst.add(dateOfJob.toString());
-        arrLst.add(pay+"");
-        arrLst.add(payIsHourly+"");
-
-        arrLst.add(jobTime+"");
-        arrLst.add(description);
-        arrLst.add(location);
-        arrLst.add(numWorkersWanted+"");
-
-        arrLst.add(category);
-        arrLst.add(isActive+"");
-        arrLst.add(jobImagePath);
-//        arrLst.add();
-
-
-        if(workersApplied != null && !workersApplied.isEmpty()) {
-            arrLst.add("WORKERS");
-            for (User u : workersApplied) {
-                arrLst.add(u.getUserID()+"");
-            }
-        }
-
-        String[] arr = new String[arrLst.size()];
-        for (int i=0; i<arr.length; i++) {
-            arr[i] = arrLst.get(i);
-        }
-        return arr;
-    }
-
-    public String encode() {
-        return encode(this);
-    }
-
-    public static String encode(Job j) {
-        StringBuilder s = new StringBuilder();
-        String[] arr = j.getAllData();
-        for (String str: arr) {
-            s.append(str).append(ENCODED_DATA_SEPARATOR);
-        }
-        System.out.println(s.toString());
-        return s.toString();
-    }
-
-    public static Job decode(String string) {
-        return null;
     }
 
     public static int getUniqueID() {
