@@ -1,20 +1,17 @@
 package oddJob;
 /*
  * @author: Dallen Corry
- * @version: 1.0
- * @since: 2022/Nov/08
+ * @version: 1.2
+ * @since: 2022/Nov/15
  * @created: 2022/Nov/08
  * Class: JobInfoPane
  * */
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.event.Event;
 import javafx.stage.Stage;
 
 import static oddJob.Defaults.*;
@@ -34,7 +31,6 @@ public class JobInfoPane extends VBox {
 
 
         btnAccept.setOnAction(actionEvent -> {
-            //add the Job to the user's array.
             driver.u.addJobWorked(job);
             job.setActive(false);
             // close the dialog.
@@ -52,6 +48,11 @@ public class JobInfoPane extends VBox {
         btnBack.setOnAction(e->setContent());
     }
 
+    /**
+     * gets the necessary information from the instance variable 'job' and
+     * returns it in a formatted string.
+     * @return a String containing date of job, date posted, pay, job time, location, number of workers, and description.
+     */
     private String getJobText() {
         String s = "";
         s+= "Date of Job: " + job.getDateOfJob();
@@ -64,6 +65,9 @@ public class JobInfoPane extends VBox {
         return s;
     }
 
+    /**
+     * Sets the content of the HBox to contain all the instance elements.
+     */
     private void setContent() {
         ImageView imgView = new ImageView(new Image(job.getJobImagePath().equals("") ? IMAGE_NOT_FOUND : job.getJobImagePath()));
         Text title = new Text(job.getTitle());

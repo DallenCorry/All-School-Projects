@@ -1,8 +1,8 @@
 package oddJob;
 /*
  * @author: Dallen Corry
- * @version: 1.3
- * @since: 2022/Nov/08
+ * @version: 1.4
+ * @since: 2022/Nov/15
  * @created: 2022/Oct/16
  * Class: MainScreenPane
  * */
@@ -74,7 +74,6 @@ public class MainScreenPane extends BorderPane {
     }
 
     public void addJobsToCenter(Job[] jobArr) {
-        System.out.println("adding jobs to main "+jobArr.length);
         jobs.getChildren().clear();
         for(Job j:jobArr) {
             if(j.isActive()) {

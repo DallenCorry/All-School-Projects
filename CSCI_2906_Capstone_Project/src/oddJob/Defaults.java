@@ -1,8 +1,8 @@
 package oddJob;
 /*
   @author: Dallen Corry
- * @version: 1.0
- * @since: 2022/Nov/08
+ * @version: 1.1
+ * @since: 2022/Nov/15
  * @created: 2022/Nov/08
  * Abstract Class: Defaults
  * */
@@ -17,8 +17,6 @@ public abstract class Defaults {
     public static final String STYLE_SHEET = "css/styles.css";
     public static final String USERS_FILE_PATH = "users.dat";
     public static final String JOBS_FILE_PATH = "jobs.dat";
-
-    public final static char ENCODED_DATA_SEPARATOR = '<';
 
     public static final int DEFAULT_HEIGHT = 600;
     public static final int DEFAULT_WIDTH = 450;

@@ -1,5 +1,11 @@
 package oddJob;
-
+/*
+ * @author: Dallen Corry
+ * @version: 1.0
+ * @since: 2022/Oct/20
+ * @created: 2022/Oct/20
+ * Class: LaunchScreenPane
+ * */
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -17,11 +23,9 @@ public class LaunchScreenPane extends BorderPane {
         logo.setAlignment(Pos.CENTER);
         setTop(logo);
 
-
         StackPane text = new StackPane(new Text("Copyright OddJob© 2022"));
         text.setPadding(new Insets(5));
         text.setAlignment(Pos.CENTER);
         setBottom(text);
-
     }
 }

@@ -1,8 +1,8 @@
 package oddJob;
 /*
  * @author: Dallen Corry
- * @version: 1.1
- * @since: 2022/Nov/14
+ * @version: 1.2
+ * @since: 2022/Nov/15
  * @created: 2022/Oct/06
  * Class: User
  * */
@@ -196,6 +196,10 @@ public class User implements Serializable {
         return avg;
     }
 
+    /**
+     * Searches the Users stored and returns a random ID that isn't in use by any User.
+     * @return int a unique 3 digit ID.
+     */
     private static int generateUniqueID() {
         int tempID = new Random().nextInt(1000);
         boolean isUnique = false;

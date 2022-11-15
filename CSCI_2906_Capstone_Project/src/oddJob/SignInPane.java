@@ -1,5 +1,11 @@
 package oddJob;
-
+/*
+ * @author: Dallen Corry
+ * @version: 1.3
+ * @since: 2022/Nov/15
+ * @created: 2022/Oct/25
+ * Class: SignInPane
+ * */
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -35,13 +41,10 @@ public class SignInPane extends VBox {
 
         ArrayList<User> tmpUsers = driver.readUsers();
         for(User user:tmpUsers) {
-            System.out.println("U:"+user.getUserName()+" P: "+user.getPassword());
-            System.out.println("U:"+userName        +  " P: "+password);
             if(user.getUserName().equals(userName) && user.getPassword().equals(password)) {
                 return user;
             }
         }
-        System.out.println("No user found.");
         return null;
     }
 }

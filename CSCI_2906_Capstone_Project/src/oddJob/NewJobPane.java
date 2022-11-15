@@ -1,5 +1,11 @@
 package oddJob;
-
+/*
+ * @author: Dallen Corry
+ * @version: 1.4
+ * @since: 2022/Nov/15
+ * @created: 2022/Nov/08
+ * Class: NewJobPane
+ * */
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -29,7 +35,6 @@ public class NewJobPane extends ScrollPane {
     Text txtErr = new Text("");
     String imagePath = "";
 
-    /**/
     NewJobPane() {
         super();
         Label lblTitle = new Label("*Title: ",title);
@@ -78,7 +83,7 @@ public class NewJobPane extends ScrollPane {
     }
 
     /**
-     *
+     * Gets the data from the form and stores it in the array in the below-mentioned format.
      * @return data = String[] in the following format:
      *             userID, title, dateOfJob, pay, payIsHourly, location, jobTime, description,
      *             numWorkersWanted, category, jobImagePath
@@ -112,6 +117,12 @@ public class NewJobPane extends ScrollPane {
         }
     }
 
+    /**
+     * Validates the job based on all the required fields.
+     * @param u User creating the Job.
+     * @return boolean true if all cases pass. Else, throws MissingDataException
+     * @throws MissingDataException if any data in the form is empty or invalid
+     */
     public boolean isValid(User u) throws MissingDataException {
         if (u == null) {
             throw new MissingDataException("Error getting User Data");
@@ -148,5 +159,4 @@ public class NewJobPane extends ScrollPane {
         }
         return true;
     }
-
 }

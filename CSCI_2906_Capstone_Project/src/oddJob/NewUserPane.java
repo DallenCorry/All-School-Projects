@@ -1,5 +1,11 @@
 package oddJob;
-
+/*
+ * @author: Dallen Corry
+ * @version: 1.5
+ * @since: 2022/Nov/15
+ * @created: 2022/Oct/20
+ * Class: NewUserPane
+ * */
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -43,7 +49,6 @@ public class NewUserPane extends VBox {
 
         setCBValues();
 
-        //set things for Individual fields
         txtName.setPrefWidth(FIELD_SIZE);
         txtEmail.setPrefWidth(FIELD_SIZE);
         txtUserName.setPrefWidth(FIELD_SIZE);
@@ -86,10 +91,7 @@ public class NewUserPane extends VBox {
         cbMonth.setOnAction(e->updateDays());
         cbYear.setOnAction(e-> updateDays());
 
-        //TODO: Check against database
         txtUserName.setOnKeyTyped(e->{
-            //Check valid username
-            //no spaces, no special characters, unique.
             if (usernameAlreadyExists(txtUserName.getText())) {
                 txtUsernameError.setText("Username " + txtUserName.getText() + " already taken");
             } else if(!isValidUsername(txtUserName.getText())) {
@@ -120,6 +122,10 @@ public class NewUserPane extends VBox {
         }
     }
 
+    /**
+     * Updates the Combobox's values based on selected month and year
+     * Accounts for months with 28,30, and 31 days, as well as leap years.
+     */
     private void updateDays() {
         String selected=cbDay.getSelectionModel().getSelectedItem();
 
@@ -136,14 +142,13 @@ public class NewUserPane extends VBox {
         for (int i = 1; i <= numDaysInMonth; i++) {
             cbDay.getItems().add(i+"");
         }
-//        System.out.println(cbDay.getItems().contains(selected));
         cbDay.getSelectionModel().select(cbDay.getItems().contains(selected)? selected:"");
     }
 
     /**
-     *
-     * @return String[] data in the following format:
-     *      name, DOB, gender, email, userName, password.
+     * Gets the data from the form and stores it in the array in the below-mentioned format.
+     * @return data = String[] in the following format:
+     *              name, DOB, gender, email, userName, password.
      */
     public String[] getData() {
         String name;
@@ -187,12 +192,17 @@ public class NewUserPane extends VBox {
 
             DOB = year+"-"+month+"-"+day;
         } else {
-            System.out.println("NUP.getData: not Valid");
+            System.out.println("NewUserPane.getData: not Valid");
             return null;
         }
         return new String[] {name,DOB,gender,email,userName,password};
     }
 
+    /**
+     * Validates the job based on all the required fields.
+     * @return boolean true if all cases pass. Else, throws MissingDataException.
+     * @throws MissingDataException if any data in the form is empty or invalid.
+     */
     private boolean validate() throws MissingDataException {
         boolean valid = true;
         if (txtName.getText().equals ("")) {
@@ -249,6 +259,12 @@ public class NewUserPane extends VBox {
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", s);
     }
 
+    /**
+     * validates a username, where there must be only alpha-numeric characters and the underscore character '_'
+     * Must be at least 3 characters long, but no more than 30.
+     * @param s the username to validate
+     * @return true if matching the regex:"[a-zA-Z0-9_]{3,30}"
+     */
     private boolean isValidUsername(String s) {
         return Pattern.matches("[a-zA-Z0-9_]{3,30}",s);
     }

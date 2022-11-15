@@ -1,4 +1,11 @@
 package oddJob;
+/*
+ * @author: Dallen Corry
+ * @version: 1.3
+ * @since: 2022/Nov/15
+ * @created: 2022/Nov/06
+ * Class: UserPane
+ * */
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -59,6 +66,7 @@ public class UserPane extends VBox {
             btnMore.setVisible(false);
         });
     }
+
     UserPane(User u, boolean isOwner) {
         this(u);
         btnMore.setVisible(isOwner);

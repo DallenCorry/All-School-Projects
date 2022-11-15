@@ -1,8 +1,8 @@
 package oddJob;
 /*
  * @author: Dallen Corry
- * @version: 1.3
- * @since: 2022/Nov/08
+ * @version: 1.4
+ * @since: 2022/Nov/15
  * @created: 2022/Oct/06
  * Class: Job
  * */
@@ -201,6 +201,10 @@ public class Job implements Serializable {
         }
     }
 
+    /**
+     * Searches the jobs stored and returns a random ID that isn't in use by any Job.
+     * @return int a unique 3 digit ID.
+     */
     public static int getUniqueID() {
         int tempID = new Random().nextInt(1000);
         boolean isUnique = false;

@@ -1,5 +1,11 @@
 package oddJob;
-
+/*
+ * @author: Dallen Corry
+ * @version: 1.1
+ * @since: 2022/Nov/08
+ * @created: 2022/Oct/20
+ * Class: LandingPane
+ * */
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -29,15 +35,11 @@ public class LandingPane extends VBox {
         btnEmployer.setPrefWidth(100);
         btnEmployer.setWrapText(true);
         btnEmployer.setTextAlignment(TextAlignment.CENTER);
-//        link.setTextAlignment(TextAlignment.CENTER);
 
         buttons.getChildren().addAll(btnWorker, new Text("or"), btnEmployer);
         getChildren().addAll( new Text("Are you..."), buttons, new Text("Already have an account?"), signInLink);
         setPadding(new Insets(50,20,50,20));
         setAlignment(Pos.CENTER);
         setSpacing(20);
-
-        btnWorker.setOnAction(e -> System.out.println("New Worker"));
-        btnEmployer.setOnAction(e-> System.out.println("new Employer"));
     }
 }

@@ -68,7 +68,7 @@ public class driver extends Application {
         scene.getStylesheets().add(STYLE_SHEET);
 
         //Load Data
-//        genTestData(10);
+//        genTestData(10);//Uncomment this line to create bogus jobs and users.
         users=readUsers();
         jobs = readJobs();
 
@@ -166,7 +166,7 @@ public class driver extends Application {
         });
         btnCreateJob.setOnAction(e-> {
             String[] arr = newJob.getData(u);
-            if(arr !=null) {//check if valid
+            if(arr !=null) {
                 //Create job
                 Job j = new Job(arr);
                 writeJob(j);
@@ -177,10 +177,6 @@ public class driver extends Application {
         });
 
         btnWrite.setOnAction(e->genTestData(10));
-
-//        scene.setOnMouseEntered(e-> {
-//            stage.sizeToScene();
-//        });
     }
 
     public User createNewUser(String[] data) {
@@ -189,10 +185,9 @@ public class driver extends Application {
             writeUser(user);
             return user;
         } else {
-            System.out.println("User already Exists!");
+            System.out.println("ERR: User already Exists!");
             return null;
         }
-        //Check if user already exists with username/email. (username is already checked on creation)
     }
 
     public boolean isEmailAlreadyAssociated(String s) {
@@ -200,12 +195,11 @@ public class driver extends Application {
         if(tmpUsers!=null) {
             for(User u:tmpUsers) {
                 if(s.equals(u.getEmail())) {
-                    System.out.println(s+": matches :"+u.getEmail());
                     return true;
                 }
             }
         } else {
-            System.out.println("tmpUsers was null!");
+            System.out.println("ERR: Could not read users.");
         }
         return false;
     }
@@ -237,7 +231,6 @@ public class driver extends Application {
                 oos.writeObject(u);
             }
             oos.writeObject(us);
-            System.out.println("Successfully wrote User "+us.getName());
         } catch (FileNotFoundException ex) {
             System.out.println("File Not Found " + ex.getMessage());
         } catch (IOException ex) {
@@ -255,7 +248,6 @@ public class driver extends Application {
             }
         } catch (EOFException ex){
             //End of file reached
-            System.out.println("All users read");
         } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
         } catch (Exception ex) {
@@ -266,8 +258,8 @@ public class driver extends Application {
 
     public static void writeJob(Job j) {
         ArrayList<Job> tmpJobs = new ArrayList<>();
-        if (new File("jobs.dat").exists()) {
-            try (FileInputStream fis = new FileInputStream("jobs.dat");
+        if (new File(JOBS_FILE_PATH).exists()) {
+            try (FileInputStream fis = new FileInputStream(JOBS_FILE_PATH);
                  ObjectInputStream ois = new ObjectInputStream(fis)) {
                 while (true) {
                     tmpJobs.add((Job) ois.readObject());
@@ -278,14 +270,13 @@ public class driver extends Application {
                 ex.printStackTrace();
             }
         }
-        try (FileOutputStream fos = new FileOutputStream("jobs.dat",false); //append false;
+        try (FileOutputStream fos = new FileOutputStream(JOBS_FILE_PATH,false); //append false;
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             //Write everything that was in the file, and then add.
             for(Job job: tmpJobs) {
                 oos.writeObject(job);
             }
             oos.writeObject(j);
-            System.out.println("Successfully wrote job "+j.getTitle());
         } catch (FileNotFoundException ex) {
             System.out.println("File not found "+ex.getMessage());
         } catch (IOException ex) {
@@ -295,7 +286,7 @@ public class driver extends Application {
 
     public static ArrayList<Job> readJobs() {
         ArrayList<Job> tmpJobs = new ArrayList<>();
-        try (FileInputStream fis = new FileInputStream("jobs.dat");
+        try (FileInputStream fis = new FileInputStream(JOBS_FILE_PATH);
              ObjectInputStream ois = new ObjectInputStream(fis)
         ) {
             while(true) {
@@ -303,7 +294,6 @@ public class driver extends Application {
             }
         } catch (EOFException ex){
             //End of file reached
-            System.out.println("All jobs read" + tmpJobs.size());
         } catch (FileNotFoundException ex) {
             System.out.println("No File to load from\n"+ex.getMessage());
         } catch (Exception ex) {
