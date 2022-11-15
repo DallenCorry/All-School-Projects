@@ -44,9 +44,11 @@ public class Job implements Serializable {
         this.pay = pay;
         this.payIsHourly = payIsHourly;
         this.location = location;
+
         jobID = getUniqueID();
         jobImagePath = IMAGE_NOT_FOUND;
         datePosted = LocalDate.now();
+        isActive = true;
     }
 
     public Job(User creator, String title, LocalDate dateOfJob, double pay, boolean payIsHourly, double jobTime, String description, String location, int numWorkersWanted, String category) {
@@ -55,9 +57,11 @@ public class Job implements Serializable {
         this.description = description;
         this.numWorkersWanted = numWorkersWanted;
         this.category = category;
+
         jobID = getUniqueID();
         jobImagePath = IMAGE_NOT_FOUND;
         datePosted = LocalDate.now();
+        isActive = true;
     }
 
     /**
@@ -178,6 +182,10 @@ public class Job implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive=isActive;
     }
 
     public void setJobImagePath(String jobImagePath) {

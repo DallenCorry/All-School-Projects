@@ -23,8 +23,8 @@ public class NewUserPane extends VBox {
     TextField txtOtherGender = new TextField();
     TextField txtEmail = new TextField();
     TextField txtUserName = new TextField();
-    TextField txtPassword = new TextField();
-    TextField txtConfirmPassword = new TextField();
+    PasswordField txtPassword = new PasswordField();
+    PasswordField txtConfirmPassword = new PasswordField();
     Text errorText = new Text("");
     Text txtUsernameError = new Text("");
 
@@ -236,6 +236,9 @@ public class NewUserPane extends VBox {
         if (usernameAlreadyExists(txtUserName.getText())) {
             throw new MissingDataException("Username "+txtUserName.getText()+" already Taken");
         }
+        if(!isValidUsername(txtUserName.getText())) {
+            throw new MissingDataException("invalid Username");
+        }
 
         return valid;
     }
@@ -247,12 +250,12 @@ public class NewUserPane extends VBox {
     }
 
     private boolean isValidUsername(String s) {
-        return Pattern.matches("[a-zA-Z0-9_]{3,}",s);
+        return Pattern.matches("[a-zA-Z0-9_]{3,30}",s);
     }
 
     public boolean usernameAlreadyExists(String s) {
         ArrayList<User> tmpUsers = driver.readUsers();
-        if (tmpUsers != null) {
+        if (!tmpUsers.isEmpty()) {
             for (User u:tmpUsers) {
                 if(s.equals(u.getUserName())) {
                     return true;

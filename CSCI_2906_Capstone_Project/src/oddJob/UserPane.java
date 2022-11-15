@@ -52,4 +52,8 @@ public class UserPane extends VBox {
             btnMore.setVisible(false);
         });
     }
+    UserPane(User u, boolean isOwner) {
+        this(u);
+        btnMore.setVisible(isOwner);
+    }
 }

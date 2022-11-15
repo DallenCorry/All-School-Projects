@@ -74,6 +74,7 @@ public class MainScreenPane extends BorderPane {
     }
 
     public void addJobsToCenter(Job[] jobArr) {
+        System.out.println("adding jobs to main "+jobArr.length);
         jobs.getChildren().clear();
         for(Job j:jobArr) {
             if(j.isActive()) {

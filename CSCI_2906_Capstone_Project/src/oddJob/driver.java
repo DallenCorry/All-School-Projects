@@ -24,7 +24,7 @@ import static oddJob.Defaults.*;
 
 public class driver extends Application {
 
-    User u;//Current user
+    public static User u;//Current user
     ArrayList<User> users = new ArrayList<>();
     ArrayList<Job> jobs = new ArrayList<>();
 
@@ -61,7 +61,7 @@ public class driver extends Application {
         scene.getStylesheets().add(STYLE_SHEET);
 
         //Load Data
-        genTestData(10);
+//        genTestData(10);
         users=readUsers();
         jobs = readJobs();
 
@@ -163,6 +163,7 @@ public class driver extends Application {
                 //Create job
                 Job j = new Job(arr);
                 writeJob(j);
+                u.addJobCreated(j);
                 jobs = readJobs();
                 main.addJobsToCenter(jobs);
             }
@@ -295,7 +296,7 @@ public class driver extends Application {
             }
         } catch (EOFException ex){
             //End of file reached
-            System.out.println("All jobs read");
+            System.out.println("All jobs read" + tmpJobs.size());
         } catch (FileNotFoundException ex) {
             System.out.println("No File to load from\n"+ex.getMessage());
         } catch (Exception ex) {

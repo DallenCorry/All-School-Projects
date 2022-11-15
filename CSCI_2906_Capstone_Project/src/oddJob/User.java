@@ -28,8 +28,8 @@ public class User implements Serializable {
     private double employerRating;
     private double workerRating;
     private String profilePicturePath = NO_PROFILE_PIC;
-    private ArrayList<Job> jobsWorked;
-    private ArrayList<Job> jobsCreated;
+    private ArrayList<Job> jobsWorked = new ArrayList<>();
+    private ArrayList<Job> jobsCreated = new ArrayList<>();
     private double earnings;
     private double earningGoal;
 
