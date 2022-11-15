@@ -35,7 +35,7 @@ public class MainScreenPane extends BorderPane {
         logo.setPadding(new Insets(5,5,5,5));
         setTop(logo);
 
-        buttons.getChildren().addAll(btnHome, btnEarnings, btnProfile, btnMore);
+        buttons.getChildren().addAll(btnHome, btnProfile, btnMore);//, btnEarnings
         buttons.setSpacing(5);
         buttons.setPadding(new Insets(5,5,5,5));
         buttons.setAlignment(Pos.CENTER);

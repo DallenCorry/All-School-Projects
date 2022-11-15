@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 public class SignInPane extends VBox {
     TextField txtUsername = new TextField();
-    TextField txtPassword = new TextField();
+    PasswordField txtPassword = new PasswordField();
     Text txtErr = new Text("");
 
     SignInPane() {

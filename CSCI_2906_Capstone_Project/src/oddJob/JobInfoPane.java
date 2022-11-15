@@ -8,6 +8,7 @@ package oddJob;
  * */
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
@@ -31,6 +32,7 @@ public class JobInfoPane extends VBox {
 
         setPrefSize(DEFAULT_WIDTH/2,DEFAULT_HEIGHT);
 
+
         btnAccept.setOnAction(actionEvent -> {
             //add the Job to the user's array.
             driver.u.addJobWorked(job);
@@ -44,6 +46,7 @@ public class JobInfoPane extends VBox {
         hLink.setOnAction(e-> {
             getChildren().clear();
             getChildren().addAll(btnBack, new UserPane(job.getCreator(),false));
+            setAlignment(Pos.TOP_LEFT);
         });
 
         btnBack.setOnAction(e->setContent());
@@ -51,9 +54,12 @@ public class JobInfoPane extends VBox {
 
     private String getJobText() {
         String s = "";
-        s+= "\nDate of Job:" + job.getDateOfJob();
+        s+= "Date of Job: " + job.getDateOfJob();
+        s+= "\nDate Posted: "+ job.getDatePosted();
         s+= "\n\nPay: $" + job.getPay() + (job.isPayIsHourly() ? "/hr":" - Flat rate");
-        s+= "\n Date Posted: "+ job.getDatePosted();
+        s+= "\nEstimated time: "+job.getJobTime() + " hrs";
+        s+= "\n\nLocation: "+job.getLocation();
+        s+= "\nNumber of workers wanted: " +job.getNumWorkersWanted();
         s+="\n\nDescription:\n" + job.getDescription();
         return s;
     }
@@ -70,5 +76,6 @@ public class JobInfoPane extends VBox {
         txtCreator.setContentDisplay(ContentDisplay.RIGHT);
         getChildren().clear();
         getChildren().addAll(imgView,title,txtCreator,txt,btnAccept);
+        setAlignment(Pos.CENTER);
     }
 }

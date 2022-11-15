@@ -1,10 +1,13 @@
 package oddJob;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+
+import static oddJob.Defaults.*;
 
 public class UserPane extends VBox {
     Text name = new Text();
@@ -39,13 +42,17 @@ public class UserPane extends VBox {
             jobsWorked.setText("Jobs Worked: 0");
         }
         userID.setText("ID: "+u.getUserID());
-        userName.setText("Usesrname "+u.getUserName());
-        age.setText(u.getAge()+"");
+        userName.setText("Username: "+u.getUserName());
+        age.setText("Age: " + u.getAge()+"");
+        gender.setText("Gender: "+u.getGender());
+        email.setText("Email: "+ u.getEmail());
+        email.setWrappingWidth(DEFAULT_WIDTH/2-5.0);
         ImageView profPic = new ImageView(profile);
 
         additionalInfo.setVisible(false);
-        additionalInfo.getChildren().addAll(userName,userID,age,gender,email);
-        getChildren().addAll(name,profPic,jobsWorked,workedStars,jobsPosted,postedStars, btnMore, additionalInfo);
+        additionalInfo.getChildren().addAll(userName,userID,age,gender);
+        getChildren().addAll(name,profPic,jobsWorked,workedStars,jobsPosted,postedStars,email, btnMore, additionalInfo);
+        setAlignment(Pos.TOP_CENTER);
 
         btnMore.setOnAction(e-> {
             additionalInfo.setVisible(true);

@@ -22,6 +22,13 @@ import javafx.stage.Stage;
 
 import static oddJob.Defaults.*;
 
+/**
+ * OddJob is a community job board for posting small, local jobs.
+ * The design was meant to be intuitive and robust, able to catch any user errors.
+ * Further development will be needed in making the app location based,
+ *
+ * contains 15 different classes, and over 1,300 lines of Code.
+ */
 public class driver extends Application {
 
     public static User u;//Current user
@@ -314,12 +321,19 @@ public class driver extends Application {
                 new User("George Georgeson", "ggson","password",LocalDate.now()),
                 new User("Steve Jobs", "Apple","Apple",LocalDate.parse("1955-02-24"))
         };
+        userArr[0].setEmail("bob@gmail.com");
+        userArr[1].setEmail("alice789@secure.encrypted.net");
+        userArr[2].setEmail("admin@admin.org");
+        userArr[3].setEmail("jeffrocks@yahoo.com");
+        userArr[4].setEmail("george.georgeson@gmail.com");
+        userArr[5].setEmail("Steve.Jobs@apple.com");
         Job[] jobArr = {
                 new Job(userArr[0],"Lawn Mowing",LocalDate.now(),20.00,false,"Cedar City"),
-                new Job(userArr[1],"Dog Walking",LocalDate.parse("2022-11-17"),10.00,true,2,"Walk my chihuahua socks for about 2 hours each week.","100 S 300 W",1,""),
+                new Job(userArr[1],"Dog Walking",LocalDate.parse("2022-11-17"),10.00,true,2,"Walk my chihuahua Socks for about 2 hours each week.","100 S 300 W",1,""),
                 new Job(userArr[2],"Drywall",LocalDate.parse("2022-11-19"),15.00,true,"Cedar Walmart"),
                 new Job(userArr[3],"Fix my Internet", LocalDate.now(),30.00,true,5,"my house has no wifi and i need it for work!!","My house",1,"electronic help"),
-                new Job(userArr[4],"Help Stock",LocalDate.parse("2022-11-15"),10.0,false,"St. George Rentals")
+                new Job(userArr[4],"Help Stock",LocalDate.parse("2022-11-15"),10.0,false,"St. George Rentals"),
+                new Job(userArr[5], "Build the next iPhone",LocalDate.parse("2022-11-30"),5,true,"California")
         };
         for (int i=0; i<num && i< userArr.length && i<jobArr.length; i++) {
             writeUser(userArr[i]);

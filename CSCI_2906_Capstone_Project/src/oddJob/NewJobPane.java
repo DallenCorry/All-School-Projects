@@ -53,6 +53,7 @@ public class NewJobPane extends ScrollPane {
         lblBtnImage.setContentDisplay(ContentDisplay.RIGHT);
 
         lblDescription.setContentDisplay(ContentDisplay.BOTTOM);
+        description.setPrefSize(100,100);
 
         hourly.setToggleGroup(payRate);
         hourly.setSelected(true);
